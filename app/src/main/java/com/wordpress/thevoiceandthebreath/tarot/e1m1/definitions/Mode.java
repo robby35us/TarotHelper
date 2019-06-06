@@ -17,12 +17,4 @@ public enum Mode {
         }
         return super.toString();
     }
-
-    public static int size() {
-        return Mode.values().length;
-    }
-
-    public static Mode get(int index) {
-        return Mode.values()[index];
-    }
 }

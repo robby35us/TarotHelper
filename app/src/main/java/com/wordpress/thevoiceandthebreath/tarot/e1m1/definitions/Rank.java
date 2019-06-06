@@ -52,11 +52,6 @@ public enum Rank {
         return null;
     }
 
-    public static int size(){
-        return Rank.values().length;
-    }
-
-
     @TypeConverter
     public static int getInt(Rank rank) { return rank.ordinal();}
     @TypeConverter

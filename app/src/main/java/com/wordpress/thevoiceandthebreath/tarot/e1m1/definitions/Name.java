@@ -37,14 +37,6 @@ public enum Name {
         return super.toString();
     }
 
-    public Number getNumber() {
-        return Number.values()[this.ordinal()];
-    }
-
-    public static  int size() {
-        return Name.values().length;
-    }
-
     @TypeConverter
     public static int getInt(Name name) { return name.ordinal(); }
     @TypeConverter

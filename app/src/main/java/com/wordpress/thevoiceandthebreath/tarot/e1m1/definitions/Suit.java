@@ -17,10 +17,6 @@ public enum Suit{
         return super.toString();
     }
 
-    public static int size(){
-        return Suit.values().length;
-    }
-
     @TypeConverter
     public static int getInt(Suit suit) { return suit.ordinal(); }
     @TypeConverter

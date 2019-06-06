@@ -38,10 +38,6 @@ public enum Number {
         return super.toString();
     }
 
-    public static int size(){
-        return Number.values().length;
-    }
-
     @TypeConverter
     public static int getInt(Number number) { return number.ordinal(); }
     @TypeConverter
