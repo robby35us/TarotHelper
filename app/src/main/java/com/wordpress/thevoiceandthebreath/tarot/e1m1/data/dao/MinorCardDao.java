@@ -7,7 +7,7 @@ import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Transaction;
 
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.card.MinorCard;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.card.MinorCardWithMeanings;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardwithmeaings.MinorCardWithMeanings;
 
 import java.util.List;
 

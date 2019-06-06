@@ -28,8 +28,8 @@ import com.wordpress.thevoiceandthebreath.tarot.e1m1.databinding.LayoutSingleCar
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.databinding.LayoutSingleCardReversedMeaningsBinding;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.R;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.card.Card;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.card.CardWithMeanings;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.card.Meaning;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardwithmeaings.CardWithMeanings;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.meaning.Meaning;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -55,7 +55,6 @@ public class SingleCardFragment extends Fragment implements View.OnClickListener
     private Card card;
     private Meaning uprightMeaning;
     private Meaning reversedMeaning;
-    private Drawable cardImage;
     private int cardId;
 
     private float mImageRotation;
@@ -114,9 +113,9 @@ public class SingleCardFragment extends Fragment implements View.OnClickListener
                 if(cardWithMeanings == null)
                     return;
                 mCard.removeObserver(this);
-                card = cardWithMeanings.card;
-                uprightMeaning = cardWithMeanings.upright;
-                reversedMeaning = cardWithMeanings.reversed;
+                card = cardWithMeanings.getCard();
+                uprightMeaning = cardWithMeanings.getUpright();
+                reversedMeaning = cardWithMeanings.getReversed();
 
                 mBinding.setCard(card);
                 bindAssetImage(mBinding.singleCardImage, card.getFileName());

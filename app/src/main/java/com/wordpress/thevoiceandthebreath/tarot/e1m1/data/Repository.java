@@ -7,10 +7,10 @@ import android.os.AsyncTask;
 import android.support.v4.util.Pair;
 
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.card.MajorCard;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.card.MajorCardWithMeanings;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.card.Meaning;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardwithmeaings.MajorCardWithMeanings;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.meaning.Meaning;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.card.MinorCard;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.card.MinorCardWithMeanings;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardwithmeaings.MinorCardWithMeanings;
 
 import java.util.List;
 

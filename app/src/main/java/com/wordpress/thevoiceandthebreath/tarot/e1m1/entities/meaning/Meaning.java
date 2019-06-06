@@ -1,4 +1,4 @@
-package com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.card;
+package com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.meaning;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;

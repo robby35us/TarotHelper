@@ -4,7 +4,7 @@ import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;
 
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.card.MajorCard;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.card.Meaning;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.meaning.Meaning;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.card.MinorCard;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.data.dao.MajorCardDao;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.data.dao.MeaningDao;

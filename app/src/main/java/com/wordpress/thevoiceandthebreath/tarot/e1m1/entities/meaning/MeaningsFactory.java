@@ -1,8 +1,6 @@
-package com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardfactory;
+package com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.meaning;
 
 import android.support.annotation.NonNull;
-
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.card.Meaning;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.definitions.Number;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.definitions.Rank;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.definitions.Suit;

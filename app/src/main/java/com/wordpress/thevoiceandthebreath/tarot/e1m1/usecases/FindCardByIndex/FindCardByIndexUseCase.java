@@ -1,7 +1,7 @@
 package com.wordpress.thevoiceandthebreath.tarot.e1m1.usecases.FindCardByIndex;
 
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.card.MajorCardWithMeanings;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.card.MinorCardWithMeanings;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardwithmeaings.MajorCardWithMeanings;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardwithmeaings.MinorCardWithMeanings;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.usecases.callback.CardRetriever;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardfactory.CardFactory;
 

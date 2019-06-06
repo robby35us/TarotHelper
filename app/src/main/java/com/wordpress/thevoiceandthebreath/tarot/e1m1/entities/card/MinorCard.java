@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.definitions.Rank;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.definitions.Suit;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.meaning.Meaning;
 
 
 /*

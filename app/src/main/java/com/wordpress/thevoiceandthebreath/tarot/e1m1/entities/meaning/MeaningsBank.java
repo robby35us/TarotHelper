@@ -1,10 +1,10 @@
-package com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardfactory;
+package com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.meaning;
 
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.definitions.Number;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.definitions.Rank;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.definitions.Suit;
 
-public class MeaningsBank {
+class MeaningsBank {
     private MeaningsBank() {}
 
     static String getCoreMeaning(Number number, Suit suit, Rank rank) {

@@ -4,7 +4,7 @@
     <data>
         <variable
             name="meaning"
-            type="com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.card.Meaning" />
+            type="com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.meaning.Meaning" />
     </data>
 
     <LinearLayout

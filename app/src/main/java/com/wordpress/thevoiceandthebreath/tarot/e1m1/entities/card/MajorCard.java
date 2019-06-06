@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.definitions.Mode;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.definitions.Name;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.definitions.Number;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.meaning.Meaning;
 
 /*
  * MajorCard.java
