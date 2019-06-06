@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardfactory.CardFactory;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.data.initialize.DataInitializer;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.ui.main.CardPagerAdapter;
 
 public class DisplayCardActivity extends AppCompatActivity {
@@ -15,7 +15,7 @@ public class DisplayCardActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_display_card);
 
-        CardPagerAdapter sectionsPagerAdapter = new CardPagerAdapter(this, getSupportFragmentManager());
+        CardPagerAdapter sectionsPagerAdapter = new CardPagerAdapter( getSupportFragmentManager());
 
         ViewPager viewPager = findViewById(R.id.cardDisplayViewPager);
         viewPager.setAdapter(sectionsPagerAdapter);
@@ -28,6 +28,6 @@ public class DisplayCardActivity extends AppCompatActivity {
     }
 
     private void addCards() {
-        CardFactory.getFactory(this).populateDatabase();
+        DataInitializer.getFactory(this).populateDatabase();
     }
 }

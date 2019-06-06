@@ -1,4 +1,4 @@
-package com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.meaning;
+package com.wordpress.thevoiceandthebreath.tarot.e1m1.data.initialize;
 
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.definitions.Number;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.definitions.Rank;

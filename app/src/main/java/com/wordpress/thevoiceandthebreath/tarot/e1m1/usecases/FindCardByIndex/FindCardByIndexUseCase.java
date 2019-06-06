@@ -1,9 +1,9 @@
 package com.wordpress.thevoiceandthebreath.tarot.e1m1.usecases.FindCardByIndex;
 
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.data.CardBuffer;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardwithmeaings.MajorCardWithMeanings;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardwithmeaings.MinorCardWithMeanings;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.usecases.callback.CardRetriever;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardfactory.CardFactory;
 
 public class FindCardByIndexUseCase implements FindCardByIndexInputPort, CardRetriever {
     private FindCardByIndexOutputPort outputPort;
@@ -11,7 +11,8 @@ public class FindCardByIndexUseCase implements FindCardByIndexInputPort, CardRet
     @Override
     public void execute(Params params, FindCardByIndexOutputPort outputPort) {
         this.outputPort = outputPort;
-        CardFactory.getFactory(params.getContext()).retrieveCardByIndex(params.getIndex(), this, params.getContext());
+        CardBuffer buffer = CardBuffer.getCardBuffer(params.getContext());
+        buffer.retrieveCardByIndex(params.getIndex(), this, params.getContext());
     }
 
     @Override
