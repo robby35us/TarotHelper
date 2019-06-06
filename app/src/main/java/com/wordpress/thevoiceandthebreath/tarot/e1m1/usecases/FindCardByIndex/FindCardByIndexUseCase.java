@@ -7,13 +7,11 @@ import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardfactory.CardFa
 
 public class FindCardByIndexUseCase implements FindCardByIndexInputPort, CardRetriever {
     private FindCardByIndexOutputPort outputPort;
-    private int index;
 
     @Override
     public void execute(Params params, FindCardByIndexOutputPort outputPort) {
         this.outputPort = outputPort;
-        index = params.getIndex();
-        CardFactory.getFactory(params.getContext()).retrieveCardByIndex(index, this);
+        CardFactory.getFactory(params.getContext()).retrieveCardByIndex(params.getIndex(), this, params.getContext());
     }
 
     @Override

@@ -38,21 +38,17 @@ public class CardFactory {
     private SparseArray<MajorCardWithMeanings> majorCache;
     private SparseArray<MinorCardWithMeanings> minorCache;
     private boolean[] marked;
-    private Context context;
     private Repository repository;
     private static List<CardParams> params;
     private static int majorCardCount = 0;
     private static int minorCardCount = 0;
+
+
     private static CardFactory factory;
-    private int lastNumMajorCards;
-    private int lastNumMinorCards;
 
     public static CardFactory getFactory(Context context) {
         if(factory == null) {
             factory = new CardFactory(context);
-        }
-        else {
-            factory.context = context;
         }
         return factory;
     }
@@ -61,7 +57,6 @@ public class CardFactory {
         majorCache = new SparseArray<>();
         minorCache = new SparseArray<>();
         marked = new boolean[78];
-        this.context = context;
         if (repository == null) {
             repository = Repository.getRepository(context);
         }
@@ -96,7 +91,7 @@ public class CardFactory {
             repository.insertMinorCard((MinorCard) card);
     }
 
-    public void retrieveCardByIndex(final int index, final CardRetriever retriever) {
+    public void retrieveCardByIndex(final int index, final CardRetriever retriever, Context context) {
         if (index < 22 && majorCache.get(index) != null) {
             retriever.receiveCard(majorCache.get(index));
             return;
@@ -143,7 +138,8 @@ public class CardFactory {
             majorCards.observe((AppCompatActivity) context, new Observer<List<MajorCardWithMeanings>>() {
                 @Override
                 public void onChanged(@Nullable List<MajorCardWithMeanings> cards) {
-                    lastNumMajorCards = cards.size();
+                    if(cards == null)
+                        return;
                     majorCards.removeObserver(this);
                     if(index < 22)
                         retriever.receiveCard(cards.get(index - actualLower));
@@ -155,6 +151,8 @@ public class CardFactory {
             minorCards.observe((AppCompatActivity) context, new Observer<List<MinorCardWithMeanings>>() {
                 @Override
                 public void onChanged(@Nullable List<MinorCardWithMeanings> cards) {
+                    if(cards == null)
+                        return;
                     minorCards.removeObserver(this);
                     if(index >= 22)
                         retriever.receiveCard(cards.get((index - actualUpper) + cards.size()-1));
@@ -164,7 +162,7 @@ public class CardFactory {
             });
     }
 
-    public void retrieveCardCount ( final CardCountRetriever retriever) {
+    public void retrieveCardCount ( final CardCountRetriever retriever, Context context) {
         if (majorCardCount != 0 && minorCardCount != 0) {
             retriever.receiveCardCountCallback(majorCardCount + minorCardCount);
         } else {
@@ -281,7 +279,7 @@ public class CardFactory {
             this.rank = rank;
         }
 
-        public Arcana getArcana() {
+        Arcana getArcana() {
             return arcana;
         }
 
@@ -289,15 +287,15 @@ public class CardFactory {
             return name;
         }
 
-        public Number getNumber() {
+        Number getNumber() {
             return number;
         }
 
-        public Suit getSuit() {
+        Suit getSuit() {
             return suit;
         }
 
-        public Rank getRank() {
+        Rank getRank() {
             return rank;
         }
     }

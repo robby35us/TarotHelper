@@ -15,35 +15,28 @@ import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.card.MinorCardWith
 import java.util.List;
 
 public class Repository {
-    private String DB_NAME = "db_tarothelper";
+    private static final String DB_NAME = "db_tarot_helper";
 
-    private Context context;
-    private AppDatabase database;
     private static Repository repository;
 
     public static Repository getRepository(Context context) {
-        if(repository == null) {
+        if (repository == null) {
             repository = new Repository(context);
-        } else {
-            repository.context = context;
         }
         return repository;
     }
 
-   private Repository(Context context) {
-        if(database == null) {
+    private AppDatabase database;
+
+    private Repository(Context context) {
+        if (database == null) {
             database = Room.databaseBuilder(context, AppDatabase.class, DB_NAME).build();
         }
     }
 
 
-
     public void insertMinorCard(MinorCard card) {
         new InsertMinorCard(card, database).execute();
-    }
-
-    public LiveData<List<MinorCard>> queryMinorCard(int id) {
-        return database.getMinorCardDao().getCardById(id);
     }
 
     public LiveData<List<MinorCardWithMeanings>> queryMinorCards(int lowerIndex, int upperIndex) {
@@ -58,19 +51,13 @@ public class Repository {
         new InsertMajorCard(card, database).execute();
     }
 
-    public LiveData<List<MajorCard>> queryMajorCard(int id) {
-        return database.getMajorCardDao().getCardById(id);
-    }
-
 
     public String insertMeaning(Meaning meaning) {
         new InsertMeaning(meaning, database).execute();
         return meaning.id;
     }
 
-    public LiveData<List<Meaning>> queryMeaning(String id) {
-        return database.getMeaningDao().getMeaningById(id);
-    }
+
 
     public Pair<LiveData<Integer>, LiveData<Integer>> queryCardCount() {
         LiveData<Integer> majorCardCount = database.getMajorCardDao().getCardCount();
@@ -110,21 +97,25 @@ public class Repository {
         }
     }
 
-   static class InsertAllCards extends AsyncTask<Void, Void, Void> {
-        private MajorCard[] cards;
+    static class InsertAllCards extends AsyncTask<Void, Void, Void> {
+        private MajorCard[] majorCards;
+        private MinorCard[] minorCards;
         private AppDatabase database;
 
-        InsertAllCards(MajorCard[] cards, AppDatabase database) {
-            this.cards = cards;
+        InsertAllCards(MajorCard[] majorCards, MinorCard[] minorCards, AppDatabase database) {
+            this.majorCards = majorCards;
+            this.minorCards = minorCards;
             this.database = database;
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            database.getMajorCardDao().insertAll(cards);
+            database.getMajorCardDao().insertAll(majorCards);
+            database.getMinorCardDao().insertAll(minorCards);
             return null;
         }
     }
+
     static class InsertMeaning extends AsyncTask<Void, Void, Void> {
         private Meaning meaning;
         private AppDatabase database;
@@ -155,6 +146,19 @@ public class Repository {
             database.getMeaningDao().insertAll(meanings);
             return null;
         }
+    }
+
+
+    public LiveData<List<MinorCard>> queryMinorCard(int id) {
+        return database.getMinorCardDao().getCardById(id);
+    }
+
+    public LiveData<List<MajorCard>> queryMajorCard(int id) {
+        return database.getMajorCardDao().getCardById(id);
+    }
+
+    public LiveData<List<Meaning>> queryMeaning(String id) {
+        return database.getMeaningDao().getMeaningById(id);
     }
 }
 

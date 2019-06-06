@@ -9,7 +9,7 @@ public class GetCardCountUseCase implements GetCardCountInputPort, CardCountRetr
     @Override
     public void execute(Params params, GetCardCountOutputPort outputPort) {
         this.outputPort = outputPort;
-        CardFactory.getFactory(params.getContext()).retrieveCardCount(this);
+        CardFactory.getFactory(params.getContext()).retrieveCardCount(this, params.getContext());
     }
 
     @Override
