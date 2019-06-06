@@ -13,15 +13,11 @@ import java.util.List;
 
 @Dao
 public interface MajorCardDao {
-    @Insert
-    void insert(MajorCard card);
 
     @Insert
     void insertAll(MajorCard... cards);
 
-    @Query("Select * FROM MajorCard WHERE id IS :id")
-    LiveData<List<MajorCard>> getCardById(int id);
-
+    // Returns a double left join with the Meaning table to include the upright and reversed meanings
     @Transaction
     @Query("Select * FROM MajorCard WHERE id >= :lowerIndex AND id <= :upperIndex")
     LiveData<List<MajorCardWithMeanings>> getCardRangeById(int lowerIndex, int upperIndex);

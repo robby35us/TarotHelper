@@ -18,7 +18,8 @@ import com.wordpress.thevoiceandthebreath.tarot.e1m1.definitions.Suit;
 @Entity(foreignKeys =
         {@ForeignKey(entity = Meaning.class, parentColumns = "id", childColumns = "uprightMeaningId"),
                 @ForeignKey(entity = Meaning.class, parentColumns = "id", childColumns = "reversedMeaningId")},
-        indices = {@Index(name = "MinorCard_index", value = {"uprightMeaningId", "reversedMeaningId"})})
+        indices = {@Index(name = "minor_card_upright_ids", value = "uprightMeaningId"),
+                   @Index(name = "minor_card_reversed_ids", value = "reversedMeaningId")})
 @TypeConverters({Rank.class, Suit.class})
 public class MinorCard extends Card {
     // private instance variables

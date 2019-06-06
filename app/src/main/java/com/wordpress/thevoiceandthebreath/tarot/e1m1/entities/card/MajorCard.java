@@ -19,7 +19,8 @@ import com.wordpress.thevoiceandthebreath.tarot.e1m1.definitions.Number;
 @Entity(foreignKeys =
         {@ForeignKey(entity = Meaning.class, parentColumns = "id", childColumns = "uprightMeaningId"),
                 @ForeignKey(entity = Meaning.class, parentColumns = "id", childColumns = "reversedMeaningId")},
-        indices = {@Index(name = "Major_indices", value = {"uprightMeaningId", "reversedMeaningId"})})
+        indices = {@Index(name = "major_card_upright_ids", value = "uprightMeaningId"),
+                   @Index(name = "major_card_reversed_ids", value = "reversedMeaningId")})
 @TypeConverters({Number.class, Name.class})
 public class MajorCard extends Card {
     // private instance variables
