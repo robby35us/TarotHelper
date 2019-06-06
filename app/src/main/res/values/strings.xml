@@ -2,4 +2,6 @@
     <string name="app_name">TarotE1M1</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
+    <string name="reversed_switch_label">Reversed</string>
+    <string name="list_item_description">The Current Card</string>
 </resources>
