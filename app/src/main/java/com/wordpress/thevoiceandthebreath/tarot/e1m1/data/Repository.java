@@ -19,14 +19,14 @@ public class Repository {
 
     private static Repository repository;
 
+    private AppDatabase database;
+
     public static Repository getRepository(Context context) {
         if (repository == null) {
             repository = new Repository(context);
         }
         return repository;
     }
-
-    private AppDatabase database;
 
     private Repository(Context context) {
         if (database == null) {
@@ -35,108 +35,43 @@ public class Repository {
     }
 
 
-    public void insertMinorCard(MinorCard card) {
-        new InsertMinorCard(card, database).execute();
+    // Insert statements
+    public void insertMeanings(Meaning[] meanings) {
+        new InsertMeanings(meanings, database).execute();
     }
 
-    public LiveData<List<MinorCardWithMeanings>> queryMinorCards(int lowerIndex, int upperIndex) {
-        return database.getMinorCardDao().getCardRangeById(lowerIndex, upperIndex);
+    public void insertMajorCards(MajorCard[] cards) {
+        new InsertMajorCards(cards, database).execute();
     }
 
-    public LiveData<List<MajorCardWithMeanings>> queryMajorCards(int lowerIndex, int upperIndex) {
-        return database.getMajorCardDao().getCardRangeById(lowerIndex, upperIndex);
-    }
-
-    public void insertMajorCard(MajorCard card) {
-        new InsertMajorCard(card, database).execute();
+    public void insertMinorCards(MinorCard[] cards) {
+        new InsertMinorCards(cards, database).execute();
     }
 
 
-    public String insertMeaning(Meaning meaning) {
-        new InsertMeaning(meaning, database).execute();
-        return meaning.id;
-    }
-
-
-
+    // aggregate query statements
     public Pair<LiveData<Integer>, LiveData<Integer>> queryCardCount() {
         LiveData<Integer> majorCardCount = database.getMajorCardDao().getCardCount();
         LiveData<Integer> minorCardCount = database.getMinorCardDao().getCardCount();
         return new Pair<>(majorCardCount, minorCardCount);
     }
 
-    static class InsertMajorCard extends AsyncTask<Void, Void, Void> {
-        private MajorCard card;
-        private AppDatabase database;
-
-        InsertMajorCard(MajorCard card, AppDatabase database) {
-            this.card = card;
-            this.database = database;
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            database.getMajorCardDao().insert(card);
-            return null;
-        }
+    // query statements
+    public LiveData<List<MajorCardWithMeanings>> queryMajorCards(int lowerIndex, int upperIndex) {
+        return database.getMajorCardDao().getCardRangeById(lowerIndex, upperIndex);
     }
 
-    static class InsertMinorCard extends AsyncTask<Void, Void, Void> {
-        private MinorCard card;
-        private AppDatabase database;
-
-        InsertMinorCard(MinorCard card, AppDatabase database) {
-            this.card = card;
-            this.database = database;
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            database.getMinorCardDao().insert(card);
-            return null;
-        }
+    public LiveData<List<MinorCardWithMeanings>> queryMinorCards(int lowerIndex, int upperIndex) {
+        return database.getMinorCardDao().getCardRangeById(lowerIndex, upperIndex);
     }
 
-    static class InsertAllCards extends AsyncTask<Void, Void, Void> {
-        private MajorCard[] majorCards;
-        private MinorCard[] minorCards;
-        private AppDatabase database;
 
-        InsertAllCards(MajorCard[] majorCards, MinorCard[] minorCards, AppDatabase database) {
-            this.majorCards = majorCards;
-            this.minorCards = minorCards;
-            this.database = database;
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            database.getMajorCardDao().insertAll(majorCards);
-            database.getMinorCardDao().insertAll(minorCards);
-            return null;
-        }
-    }
-
-    static class InsertMeaning extends AsyncTask<Void, Void, Void> {
-        private Meaning meaning;
-        private AppDatabase database;
-
-        InsertMeaning(Meaning meaning, AppDatabase database) {
-            this.meaning = meaning;
-            this.database = database;
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            database.getMeaningDao().insert(meaning);
-            return null;
-        }
-    }
-
-    static class InsertAllMeanings extends AsyncTask<Void, Void, Void> {
+    // wrapper classes for performing asynchronous insert operations
+    private static class InsertMeanings extends AsyncTask<Void, Void, Void> {
         private Meaning[] meanings;
         private AppDatabase database;
 
-        InsertAllMeanings(Meaning[] meanings, AppDatabase database) {
+        InsertMeanings(Meaning[] meanings, AppDatabase database) {
             this.meanings = meanings;
             this.database = database;
         }
@@ -148,7 +83,40 @@ public class Repository {
         }
     }
 
+    private static class InsertMajorCards extends AsyncTask<Void, Void, Void> {
+        private MajorCard[] majorCards;
+        private AppDatabase database;
 
+        InsertMajorCards(MajorCard[] cards, AppDatabase database) {
+            this.majorCards = cards;
+            this.database = database;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            database.getMajorCardDao().insertAll(majorCards);
+            return null;
+        }
+    }
+
+    private static class InsertMinorCards extends AsyncTask<Void, Void, Void> {
+        private MinorCard[] minorCards;
+        private AppDatabase database;
+
+        InsertMinorCards(MinorCard[] cards, AppDatabase database) {
+            this.minorCards = cards;
+            this.database = database;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            database.getMinorCardDao().insertAll(minorCards);
+            return null;
+        }
+    }
+
+    // currently unused single item queries
+    /*
     public LiveData<List<MinorCard>> queryMinorCard(int id) {
         return database.getMinorCardDao().getCardById(id);
     }
@@ -159,7 +127,7 @@ public class Repository {
 
     public LiveData<List<Meaning>> queryMeaning(String id) {
         return database.getMeaningDao().getMeaningById(id);
-    }
+    }*/
 }
 
 

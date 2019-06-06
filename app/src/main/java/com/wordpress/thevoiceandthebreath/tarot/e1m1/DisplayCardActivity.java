@@ -28,6 +28,6 @@ public class DisplayCardActivity extends AppCompatActivity {
     }
 
     private void addCards() {
-        CardFactory.getFactory(this);
+        CardFactory.getFactory(this).populateDatabase();
     }
 }

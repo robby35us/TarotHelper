@@ -29,17 +29,11 @@ import java.util.List;
 public class CardFactory {
 
     private static final int NUM_CARDS_TO_BUFFER = 5 ;
-    /*
-     * CardFactory.java
-     * Holds the logic for producing common sets of cards, such as
-     * all Major Arcana cards, wands only, or the complete set of 78 cards.
-     * Also can build a single card based on the Card's toString() value;
-     */
+
     private SparseArray<MajorCardWithMeanings> majorCache;
     private SparseArray<MinorCardWithMeanings> minorCache;
     private boolean[] marked;
     private Repository repository;
-    private static List<CardParams> params;
     private static int majorCardCount = 0;
     private static int minorCardCount = 0;
 
@@ -56,39 +50,66 @@ public class CardFactory {
     private CardFactory(Context context) {
         majorCache = new SparseArray<>();
         minorCache = new SparseArray<>();
-        marked = new boolean[78];
+        marked = new boolean[Arcana.MAJOR_ARCANA_SIZE + Arcana.MINOR_ARCANA_SIZE];
         if (repository == null) {
             repository = Repository.getRepository(context);
         }
-        generateCardParamsList();
-        generateAndStoreEachCard();
     }
 
-    private void generateCardParamsList() {
-        params = new ArrayList<>();
+    public void populateDatabase(){
+        List<CardParams> params = generateCardParamsList();
+        List<String> uprightIds = generateAndStoreUprightMeanings(params);
+        List<String> reversedIds = generateAndStoreReversedMeanings(params);
+        generateAndStoreCards(params, uprightIds, reversedIds);
+    }
+
+    private List<CardParams> generateCardParamsList() {
+        List<CardParams> params = new ArrayList<>();
         params.addAll(getMajorArcanaParamsList());
         params.addAll(getWandsParamsList());
         params.addAll(getCupsParamsList());
         params.addAll(getSwordsParamsList());
         params.addAll(getPentaclesParamsList());
+        return params;
     }
 
-    private void generateAndStoreEachCard() {
-        for (CardParams p : params) {
-            generateCard(p);
+    private List<String> generateAndStoreUprightMeanings(List<CardParams> params) {
+        List<String> meaningIdsList = new ArrayList<>(params.size());
+        Meaning[] meaningsArray = new Meaning[params.size()];
+        for(int i = 0; i < params.size(); i++) {
+            Meaning meaning = generateUprightMeaning(params.get(i));
+            meaningIdsList.add(meaning.id);
+            meaningsArray[i] = meaning;
         }
+        repository.insertMeanings(meaningsArray);
+        return meaningIdsList;
     }
 
-    private void generateCard(CardParams params) {
-        Meaning upright = generateUprightMeaning(params);
-        String uprightId = repository.insertMeaning(upright);
-        Meaning reversed = generateReversedMeaning(params);
-        String reversedId = repository.insertMeaning(reversed);
-        Card card = instantiateNewCard(params, uprightId, reversedId);
-        if (params.getArcana() == Arcana.MAJOR)
-            repository.insertMajorCard((MajorCard) card);
-        else
-            repository.insertMinorCard((MinorCard) card);
+    private List<String> generateAndStoreReversedMeanings(List<CardParams> params) {
+        List<String> meaningIdsList = new ArrayList<>(params.size());
+        Meaning[] meaningsArray = new Meaning[params.size()];
+        for(int i = 0; i < params.size(); i++) {
+            Meaning meaning = generateReversedMeaning(params.get(i));
+            meaningIdsList.add(meaning.id);
+            meaningsArray[i] = meaning;
+        }
+        repository.insertMeanings(meaningsArray);
+        return meaningIdsList;
+    }
+
+
+    private void generateAndStoreCards(List<CardParams> params, List<String> uprightIds, List<String> reversedIds) {
+        MajorCard[] majorCards = new MajorCard[Arcana.MAJOR_ARCANA_SIZE];
+        MinorCard[] minorCards = new MinorCard[Arcana.MINOR_ARCANA_SIZE];
+        for(int i = 0; i < Arcana.MAJOR_ARCANA_SIZE; i++)
+            majorCards[i] = (MajorCard) instantiateNewCard(params.get(i), uprightIds.get(i), reversedIds.get(i));
+        repository.insertMajorCards(majorCards);
+
+        for(int i = 0; i < Arcana.MINOR_ARCANA_SIZE; i++)
+            minorCards[i] = (MinorCard) instantiateNewCard(params.get(Arcana.MAJOR_ARCANA_SIZE + i),
+                                                           uprightIds.get(Arcana.MAJOR_ARCANA_SIZE + i),
+                                                           reversedIds.get(Arcana.MAJOR_ARCANA_SIZE + i));
+        repository.insertMinorCards(minorCards);
     }
 
     public void retrieveCardByIndex(final int index, final CardRetriever retriever, Context context) {
