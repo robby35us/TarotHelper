@@ -38,14 +38,15 @@ import java.io.InputStream;
                 attribute = "srcCompat",
                 method = "setImageDrawable") })
 public class SingleCardFragment extends Fragment implements View.OnClickListener{
+    // Argument Constants for re-instantiating the fragment after swiping away and then back
     private static final String ARG_CARD_ID = "card_id";
     private static final String ARG_IMAGE_ROTATION = "image_rotation";
+    private static final int CARD_ID_DEFAULT = 0;
 
+    //
     private static final float REVERSED = 180f;
     private static final float UPRIGHT = 0f;
 
-
-    private static final int CARD_ID_DEFAULT = 0;
     private FragmentCardDisplayBinding mBinding;
     private SceneBindingManager sceneBindingManager;
 
@@ -63,7 +64,6 @@ public class SingleCardFragment extends Fragment implements View.OnClickListener
 
     public static SingleCardFragment newInstance(int cardPosition,
                                                  boolean reversed) {
-
         SingleCardFragment fragment = new SingleCardFragment();
         fragment.mCard = new MutableLiveData<>();
         fragment.cardId = cardPosition;
@@ -100,45 +100,33 @@ public class SingleCardFragment extends Fragment implements View.OnClickListener
 
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_card_display,
                 container, false);
-        sceneBindingManager = new SceneBindingManager(mBinding);
+        initializePage();
+        return mBinding.getRoot();
+    }
 
-        mCard = pageViewModel.getCard( getActivity(), cardId);
-        mCard.observe(activity, new Observer<CardWithMeanings>() {
-            @Override
-            public void onChanged(@Nullable CardWithMeanings cardWithMeanings) {
-                if(cardWithMeanings == null)
-                    return;
-                mCard.removeObserver(this);
-                mBinding.setCard(cardWithMeanings.getCard());
-                bindAssetImage(mBinding.singleCardImage, mBinding.getCard().getFileName());
-                sceneBindingManager.initializeUprightBinding(cardWithMeanings.getUpright());
-                sceneBindingManager.initializeReversedBinding(cardWithMeanings.getReversed());
-            }
-        });
+    private void initializePage() {
+        setupScenes();
+        enterScene();
+        getLiveDataCardFromDatabase();
 
         mBinding.setDrawable(mBinding.singleCardImage.getDrawable());
 
         mBinding.singleCardImage.setOnClickListener(this);
         mBinding.singleCardImage.setRotation(mImageRotation);
+
         mRotateImageOnSwitchCheckChanged = true;
-
-
-
         mBinding.reversedSwitch.setChecked(mImageRotation == REVERSED);
-        mBinding.reversedSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(mRotateImageOnSwitchCheckChanged)
-                    mBinding.singleCardImage.performClick();
-            }
-        });
+        mBinding.reversedSwitch.setOnCheckedChangeListener(reverseSwitchListener);
+    }
 
-
-
+    private void setupScenes() {
+        sceneBindingManager = new SceneBindingManager(mBinding);
         sceneManager = new SceneManager(mBinding.meaningsRoot, R.layout.layout_single_card_meaning,
-                                                     R.layout.layout_single_card_reversed_meanings, activity);
-
+                R.layout.layout_single_card_reversed_meanings, activity);
         sceneManager.setTransition(new Slide(), disableEnableClicksListener);
+    }
+
+    private void enterScene() {
         if (mImageRotation == REVERSED) {
             sceneManager.enterScene(SceneManager.SCENE_B);
             sceneBindingManager.bindReversed();
@@ -146,8 +134,65 @@ public class SingleCardFragment extends Fragment implements View.OnClickListener
             sceneManager.enterScene(SceneManager.SCENE_A);
             sceneBindingManager.bindUpright();
         }
+    }
 
-        return mBinding.getRoot();
+    private void getLiveDataCardFromDatabase() {
+        mCard = pageViewModel.getCard( activity, cardId);
+        mCard.observe(activity, cardWithMeaningsObserver);
+    }
+
+    private Observer<CardWithMeanings> cardWithMeaningsObserver = new Observer<CardWithMeanings>() {
+        @Override
+        public void onChanged(@Nullable CardWithMeanings cardWithMeanings) {
+            if(cardWithMeanings == null)
+                return;
+            mCard.removeObserver(this);
+            mBinding.setCard(cardWithMeanings.getCard());
+            bindAssetImage(mBinding.singleCardImage, mBinding.getCard().getFileName());
+            sceneBindingManager.initializeUprightBinding(cardWithMeanings.getUpright());
+            sceneBindingManager.initializeReversedBinding(cardWithMeanings.getReversed());
+        }
+    };
+
+    CompoundButton.OnCheckedChangeListener reverseSwitchListener = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            if(mRotateImageOnSwitchCheckChanged)
+                mBinding.singleCardImage.performClick();
+        }
+    };
+
+    @Override
+    public void onClick(View v) {
+        toggleRotationConstant();
+        startRotationAnimation(v);
+        handleSceneTransition();
+        toggleReversedSwitch();
+    }
+
+    private void toggleRotationConstant() {
+        mImageRotation = mImageRotation == UPRIGHT? REVERSED : UPRIGHT;
+    }
+
+    private void startRotationAnimation(View view) {
+        view.animate().rotation(mImageRotation).setDuration(500).start();
+    }
+
+    private void handleSceneTransition() {
+        sceneManager.switchScenes();
+        if(mImageRotation == UPRIGHT)
+            sceneBindingManager.bindUpright();
+        else
+            sceneBindingManager.bindReversed();
+    }
+
+    private void toggleReversedSwitch() {
+        mRotateImageOnSwitchCheckChanged = false;
+        if(mImageRotation == UPRIGHT)
+            mBinding.reversedSwitch.setChecked(false);
+        else
+            mBinding.reversedSwitch.setChecked(true);
+       mRotateImageOnSwitchCheckChanged = true;
     }
 
     Transition.TransitionListener disableEnableClicksListener = new Transition.TransitionListener() {
@@ -250,27 +295,6 @@ public class SingleCardFragment extends Fragment implements View.OnClickListener
         super.onSaveInstanceState(outState);
         outState.putInt(ARG_CARD_ID, cardId);
         outState.putFloat(ARG_IMAGE_ROTATION, mImageRotation);
-    }
-
-    @Override
-    public void onClick(View v) {
-        if(mImageRotation == UPRIGHT)
-            mImageRotation = REVERSED;
-        else
-            mImageRotation = UPRIGHT;
-
-        v.animate().rotation(mImageRotation).setDuration(500).start();
-        mRotateImageOnSwitchCheckChanged = false;
-        if(mImageRotation == UPRIGHT) {
-            sceneManager.switchScenes();
-            sceneBindingManager.bindUpright();
-            mBinding.reversedSwitch.setChecked(false);
-        } else {
-            sceneManager.switchScenes();
-            sceneBindingManager.bindReversed();
-            mBinding.reversedSwitch.setChecked(true);
-        }
-        mRotateImageOnSwitchCheckChanged = true;
     }
 
     private static void bindAssetImage(ImageView imageView, String filename) {
