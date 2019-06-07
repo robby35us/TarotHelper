@@ -22,6 +22,8 @@ import android.widget.ImageView;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.databinding.FragmentCardDisplayBinding;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.R;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardwithmeaings.CardWithMeanings;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.ui.carddisplay.util.SceneBindingManager;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.ui.carddisplay.util.SceneManager;
 
 import java.io.IOException;
 import java.io.InputStream;

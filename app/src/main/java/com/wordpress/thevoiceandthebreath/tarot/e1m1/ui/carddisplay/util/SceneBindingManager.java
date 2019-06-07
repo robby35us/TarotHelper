@@ -1,4 +1,4 @@
-package com.wordpress.thevoiceandthebreath.tarot.e1m1.ui.carddisplay.page;
+package com.wordpress.thevoiceandthebreath.tarot.e1m1.ui.carddisplay.util;
 
 import android.databinding.DataBindingUtil;
 import android.view.LayoutInflater;
@@ -9,14 +9,14 @@ import com.wordpress.thevoiceandthebreath.tarot.e1m1.databinding.LayoutCardMeani
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.databinding.LayoutCardMeaningUprightBinding;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.meaning.Meaning;
 
-class SceneBindingManager {
+public class SceneBindingManager {
     private FragmentCardDisplayBinding parentBinding;
     private LayoutCardMeaningUprightBinding uprightBinding;
     private LayoutCardMeaningReversedBinding reversedBinding;
     private Meaning uprightMeaning;
     private Meaning reversedMeaning;
 
-    SceneBindingManager(FragmentCardDisplayBinding parentBinding, LayoutInflater inflater) {
+    public SceneBindingManager(FragmentCardDisplayBinding parentBinding, LayoutInflater inflater) {
         this.parentBinding = parentBinding;
         this.uprightBinding = DataBindingUtil.inflate(inflater, R.layout.layout_card_meaning_upright,
                 parentBinding.meaningsRoot, false);
@@ -24,22 +24,22 @@ class SceneBindingManager {
                 parentBinding.meaningsRoot, false);
     }
 
-    void bindUpright() {
+    public void bindUpright() {
         uprightBinding = LayoutCardMeaningUprightBinding.bind(parentBinding.meaningsRoot.getChildAt(0));
         uprightBinding.setMeaning(uprightMeaning);
     }
 
-    void bindReversed() {
+    public void bindReversed() {
         reversedBinding = LayoutCardMeaningReversedBinding.bind(parentBinding.meaningsRoot.getChildAt(0));
         reversedBinding.setMeaning(reversedMeaning);
     }
 
-    void initializeUprightBinding(Meaning uprightMeaning) {
+    public void initializeUprightBinding(Meaning uprightMeaning) {
         uprightBinding.setMeaning(uprightMeaning);
         this.uprightMeaning = uprightMeaning;
     }
 
-    void initializeReversedBinding(Meaning reversedMeaning) {
+    public void initializeReversedBinding(Meaning reversedMeaning) {
         reversedBinding.setMeaning(reversedMeaning);
         this.reversedMeaning = reversedMeaning;
     }
