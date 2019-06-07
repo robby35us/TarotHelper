@@ -50,7 +50,7 @@
             android:layout_weight="5">
 
             <include
-                layout="@layout/layout_single_card_meaning"
+                layout="@layout/layout_card_meaning_upright"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </FrameLayout>

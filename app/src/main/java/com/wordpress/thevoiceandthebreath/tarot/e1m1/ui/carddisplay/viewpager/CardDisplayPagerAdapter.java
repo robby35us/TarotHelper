@@ -5,11 +5,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.definitions.Arcana;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.ui.carddisplay.page.SingleCardFragment;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.ui.carddisplay.page.CardDisplayFragment;
 
-public class CardPagerAdapter extends FragmentStatePagerAdapter {
+public class CardDisplayPagerAdapter extends FragmentStatePagerAdapter {
 
-    CardPagerAdapter(FragmentManager fm) {
+    CardDisplayPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
@@ -17,7 +17,7 @@ public class CardPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         // getItem is called to instantiate the fragment for the given page.
         // Return a PlaceholderFragment (defined as a static inner class below).
-        return SingleCardFragment.newInstance(position, false);
+        return CardDisplayFragment.newInstance(position, false);
     }
 
     @Override

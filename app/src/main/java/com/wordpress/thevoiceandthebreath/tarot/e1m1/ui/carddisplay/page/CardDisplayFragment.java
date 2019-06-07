@@ -26,7 +26,7 @@ import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardwithmeaings.Ca
 import java.io.IOException;
 import java.io.InputStream;
 
-public class SingleCardFragment extends Fragment implements View.OnClickListener{
+public class CardDisplayFragment extends Fragment implements View.OnClickListener{
     // Argument Constants for re-instantiating the fragment after swiping away and then back
     private static final String ARG_CARD_ID = "card_id";
     private static final String ARG_IMAGE_ROTATION = "image_rotation";
@@ -52,12 +52,12 @@ public class SingleCardFragment extends Fragment implements View.OnClickListener
     //the parent activity
     private AppCompatActivity activity;
     // this fragment's view model
-    private PageViewModel pageViewModel;
+    private CardDisplayViewModel pageViewModel;
 
 
-    public static SingleCardFragment newInstance(int cardPosition,
-                                                 boolean reversed) {
-        SingleCardFragment fragment = new SingleCardFragment();
+    public static CardDisplayFragment newInstance(int cardPosition,
+                                                  boolean reversed) {
+        CardDisplayFragment fragment = new CardDisplayFragment();
         fragment.mCard = new MutableLiveData<>();
         fragment.cardId = cardPosition;
         fragment.mImageRotation = reversed ? REVERSED : UPRIGHT;
@@ -71,7 +71,7 @@ public class SingleCardFragment extends Fragment implements View.OnClickListener
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        pageViewModel = ViewModelProviders.of(this).get(PageViewModel.class);
+        pageViewModel = ViewModelProviders.of(this).get(CardDisplayViewModel.class);
         if(savedInstanceState != null)
             restoreFragmentFromSavedInstanceState(savedInstanceState);
     }
@@ -132,8 +132,8 @@ public class SingleCardFragment extends Fragment implements View.OnClickListener
 
     private void setupScenes() {
         sceneBindingManager = new SceneBindingManager(mBinding, getLayoutInflater());
-        sceneManager = new SceneManager(mBinding.meaningsRoot, R.layout.layout_single_card_meaning,
-                R.layout.layout_single_card_reversed_meanings, activity);
+        sceneManager = new SceneManager(mBinding.meaningsRoot, R.layout.layout_card_meaning_upright,
+                R.layout.layout_card_meaning_reversed, activity);
         sceneManager.setTransition(new Slide(), disableEnableClicksListener);
     }
 

@@ -7,15 +7,15 @@ import android.support.v7.app.AppCompatActivity;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.R;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.data.initialize.DataInitializer;
 
-public class DisplayCardActivity extends AppCompatActivity {
+public class CardDisplayActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_display_card);
+        setContentView(R.layout.acitivity_card_display);
 
-        CardPagerAdapter sectionsPagerAdapter = new CardPagerAdapter( getSupportFragmentManager());
+        CardDisplayPagerAdapter sectionsPagerAdapter = new CardDisplayPagerAdapter( getSupportFragmentManager());
 
         ViewPager viewPager = findViewById(R.id.cardDisplayViewPager);
         viewPager.setAdapter(sectionsPagerAdapter);

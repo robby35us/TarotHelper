@@ -11,10 +11,10 @@ import com.wordpress.thevoiceandthebreath.tarot.e1m1.usecases.FindCardByIndex.Fi
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.usecases.FindCardByIndex.FindCardByIndexOutputPort;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.usecases.FindCardByIndex.FindCardByIndexUseCase;
 
-public class PageViewModel extends ViewModel implements FindCardByIndexOutputPort {
+public class CardDisplayViewModel extends ViewModel implements FindCardByIndexOutputPort {
     private MutableLiveData<CardWithMeanings> card;
 
-    public PageViewModel () {
+    public CardDisplayViewModel() {
         card = new MutableLiveData<>();
     }
 

@@ -5,32 +5,32 @@ import android.view.LayoutInflater;
 
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.R;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.databinding.FragmentCardDisplayBinding;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.databinding.LayoutSingleCardMeaningBinding;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.databinding.LayoutSingleCardReversedMeaningsBinding;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.databinding.LayoutCardMeaningReversedBinding;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.databinding.LayoutCardMeaningUprightBinding;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.meaning.Meaning;
 
 class SceneBindingManager {
     private FragmentCardDisplayBinding parentBinding;
-    private LayoutSingleCardMeaningBinding uprightBinding;
-    private LayoutSingleCardReversedMeaningsBinding reversedBinding;
+    private LayoutCardMeaningUprightBinding uprightBinding;
+    private LayoutCardMeaningReversedBinding reversedBinding;
     private Meaning uprightMeaning;
     private Meaning reversedMeaning;
 
     SceneBindingManager(FragmentCardDisplayBinding parentBinding, LayoutInflater inflater) {
         this.parentBinding = parentBinding;
-        this.uprightBinding = DataBindingUtil.inflate(inflater, R.layout.layout_single_card_meaning,
+        this.uprightBinding = DataBindingUtil.inflate(inflater, R.layout.layout_card_meaning_upright,
                 parentBinding.meaningsRoot, false);
-        this.reversedBinding = DataBindingUtil.inflate(inflater, R.layout.layout_single_card_reversed_meanings,
+        this.reversedBinding = DataBindingUtil.inflate(inflater, R.layout.layout_card_meaning_reversed,
                 parentBinding.meaningsRoot, false);
     }
 
     void bindUpright() {
-        uprightBinding = LayoutSingleCardMeaningBinding.bind(parentBinding.meaningsRoot.getChildAt(0));
+        uprightBinding = LayoutCardMeaningUprightBinding.bind(parentBinding.meaningsRoot.getChildAt(0));
         uprightBinding.setMeaning(uprightMeaning);
     }
 
     void bindReversed() {
-        reversedBinding = LayoutSingleCardReversedMeaningsBinding.bind(parentBinding.meaningsRoot.getChildAt(0));
+        reversedBinding = LayoutCardMeaningReversedBinding.bind(parentBinding.meaningsRoot.getChildAt(0));
         reversedBinding.setMeaning(reversedMeaning);
     }
 
