@@ -1,5 +1,6 @@
 package com.wordpress.thevoiceandthebreath.tarot.e1m1.ui.carddisplay.page;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -17,7 +18,6 @@ import android.support.annotation.Nullable;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
 
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.databinding.FragmentCardDisplayBinding;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.R;
@@ -25,36 +25,28 @@ import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardwithmeaings.Ca
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.ui.carddisplay.util.SceneBindingManager;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.ui.carddisplay.util.SceneManager;
 
-import java.io.IOException;
-import java.io.InputStream;
-
 public class CardDisplayFragment extends Fragment implements View.OnClickListener{
-    // Argument Constants for re-instantiating the fragment after swiping away and then back
+
     private static final String ARG_CARD_ID = "card_id";
     private static final String ARG_IMAGE_ROTATION = "image_rotation";
-    // other constants
+
     private static final int CARD_ID_DEFAULT = 0;
     private static final float REVERSED = 180f;
     private static final float UPRIGHT = 0f;
 
-    // holds all the views in the fragment
     private FragmentCardDisplayBinding mBinding;
 
-    // for managing animation and content of swapping out upright/reversed information
     private SceneManager sceneManager;
     private SceneBindingManager sceneBindingManager;
 
-    private MutableLiveData<CardWithMeanings> mCard;
+    private LiveData<CardWithMeanings> mCard;
     private int cardId;
 
-    // for tracking image rotation and synchronizing the reversed switch
     private float mImageRotation;
     private boolean mRotateImageOnSwitchCheckChanged;
 
-    //the parent activity
     private AppCompatActivity activity;
-    // this fragment's view model
-    private CardDisplayViewModel pageViewModel;
+    private CardDisplayViewModel viewModel;
 
 
     public static CardDisplayFragment newInstance(int cardPosition,
@@ -66,14 +58,10 @@ public class CardDisplayFragment extends Fragment implements View.OnClickListene
         return fragment;
     }
 
-    /*
-        Lifecycle methods
-     */
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        pageViewModel = ViewModelProviders.of(this).get(CardDisplayViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(CardDisplayViewModel.class);
         if(savedInstanceState != null)
             restoreFragmentFromSavedInstanceState(savedInstanceState);
     }
@@ -109,9 +97,6 @@ public class CardDisplayFragment extends Fragment implements View.OnClickListene
         outState.putFloat(ARG_IMAGE_ROTATION, mImageRotation);
     }
 
-    /*
-     * implement View.OnClickListener interface
-     */
     @Override
     public void onClick(View v) {
         v.setClickable(false);
@@ -150,7 +135,7 @@ public class CardDisplayFragment extends Fragment implements View.OnClickListene
     }
 
     private void getLiveDataCardFromDatabase() {
-        mCard = pageViewModel.getCard( activity, cardId);
+        mCard = viewModel.getCard( activity, cardId);
         mCard.observe(activity, cardWithMeaningsObserver);
     }
 
@@ -198,16 +183,13 @@ public class CardDisplayFragment extends Fragment implements View.OnClickListene
         mRotateImageOnSwitchCheckChanged = true;
     }
 
-    /*
-        Observers and listeners
-     */
     private Observer<CardWithMeanings> cardWithMeaningsObserver = new Observer<CardWithMeanings>() {
         @Override
         public void onChanged(@Nullable CardWithMeanings cardWithMeanings) {
             if(cardWithMeanings == null)
                 return;
             mCard.removeObserver(this);
-            setViewsToCard(cardWithMeanings);
+            setViewsFromCard(cardWithMeanings);
         }
     };
 
@@ -245,27 +227,26 @@ public class CardDisplayFragment extends Fragment implements View.OnClickListene
         public void onTransitionResume(@NonNull Transition transition) { }
     };
 
-    // Private method for the Observer
-
-    private void setViewsToCard(CardWithMeanings cardWithMeanings) {
+    private void setViewsFromCard(CardWithMeanings cardWithMeanings) {
         mBinding.setCard(cardWithMeanings.getCard());
-        bindAssetImage(mBinding.singleCardImage, mBinding.getCard().getFileName());
+        requestDrawableForImage();
+        initializeSceneBindings(cardWithMeanings);
+    }
+
+    private void requestDrawableForImage(){
+        LiveData<Drawable> drawableLiveData = viewModel.loadImage(activity.getAssets(), mBinding.getCard().getFileName());
+        drawableLiveData.observe(activity, drawableObserver);
+    }
+
+    private void initializeSceneBindings(CardWithMeanings cardWithMeanings) {
         sceneBindingManager.initializeUprightBinding(cardWithMeanings.getUpright());
         sceneBindingManager.initializeReversedBinding(cardWithMeanings.getReversed());
     }
 
-    /*
-     * Used to set the drawable used for an image view
-     */
-    private static void bindAssetImage(ImageView imageView, String filename) {
-        try {
-            // get input stream
-            InputStream ims = imageView.getContext().getAssets().open(filename);
-            // load image as Drawable
-            imageView.setImageDrawable(Drawable.createFromStream(ims, null));
-            ims.close();
-        } catch (IOException ex) {
-            ex.printStackTrace();
+    private Observer<Drawable> drawableObserver = new Observer<Drawable>() {
+        @Override
+        public void onChanged(@Nullable Drawable drawable) {
+            mBinding.singleCardImage.setImageDrawable(drawable);
         }
-    }
+    };
 }

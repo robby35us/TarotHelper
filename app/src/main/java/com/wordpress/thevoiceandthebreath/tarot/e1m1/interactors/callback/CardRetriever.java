@@ -1,4 +1,4 @@
-package com.wordpress.thevoiceandthebreath.tarot.e1m1.usecases.callback;
+package com.wordpress.thevoiceandthebreath.tarot.e1m1.interactors.callback;
 
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardwithmeaings.MajorCardWithMeanings;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardwithmeaings.MinorCardWithMeanings;

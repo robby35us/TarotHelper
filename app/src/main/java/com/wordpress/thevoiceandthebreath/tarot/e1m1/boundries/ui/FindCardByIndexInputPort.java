@@ -1,4 +1,4 @@
-package com.wordpress.thevoiceandthebreath.tarot.e1m1.usecases.FindCardByIndex;
+package com.wordpress.thevoiceandthebreath.tarot.e1m1.boundries.ui;
 
 import android.content.Context;
 

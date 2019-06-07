@@ -10,7 +10,7 @@ import android.util.SparseArray;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.definitions.Arcana;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardwithmeaings.MajorCardWithMeanings;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardwithmeaings.MinorCardWithMeanings;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.usecases.callback.CardRetriever;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.interactors.callback.CardRetriever;
 
 import java.util.List;
 
