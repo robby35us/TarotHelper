@@ -1,13 +1,9 @@
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
         <variable
             name="card"
             type="com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.card.Card" />
-        <variable
-            name="drawable"
-            type="android.graphics.drawable.Drawable" />
     </data>
 
     <LinearLayout
@@ -28,8 +24,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
                 android:contentDescription="@string/list_item_description"
-                android:transitionName="entryImage"
-                app:srcCompat="@{drawable}" />
+                android:transitionName="entryImage"/>
 
             <TextView
                 android:id="@+id/singleCardEntryTitle1"

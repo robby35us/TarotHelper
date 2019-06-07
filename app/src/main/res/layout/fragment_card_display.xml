@@ -1,65 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="card"
+            type="com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.card.Card" />
+    </data>
 
-<data>
-    <variable
-        name="card"
-        type="com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.card.Card" />
-    <variable
-        name="drawable"
-        type="android.graphics.drawable.Drawable" />
-</data>
-
-<LinearLayout
-    android:id="@+id/cardView"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <ImageView
-        android:id="@+id/singleCardImage"
+    <LinearLayout
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:layout_weight="5"
-        android:contentDescription="@string/list_item_description"
-        android:transitionName="entryImage"
-        app:srcCompat="@{drawable}" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/singleCardEntryTitle"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:text="@={card.cardName}"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:transitionName="entryTitle" />
-
-    <Switch
-        android:id="@+id/reversedSwitch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:switchTextAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:text="@string/reversed_switch_label"
-        android:textAlignment="center"
-        android:textIsSelectable="false" />
-
-    <FrameLayout
-        android:id="@+id/meaningsRoot"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="5">
-
-        <include
-            layout="@layout/layout_single_card_meaning"
+        <ImageView
+            android:id="@+id/singleCardImage"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </FrameLayout>
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_weight="5"
+            android:contentDescription="@string/list_item_description"
+            android:transitionName="entryImage" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/singleCardEntryTitle"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@={card.cardName}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:transitionName="entryTitle" />
+
+        <Switch
+            android:id="@+id/reversedSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:switchTextAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:text="@string/reversed_switch_label"
+            android:textAlignment="center"
+            android:textIsSelectable="false" />
+
+        <FrameLayout
+            android:id="@+id/meaningsRoot"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5">
+
+            <include
+                layout="@layout/layout_single_card_meaning"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </FrameLayout>
+
+    </LinearLayout>
 </layout>

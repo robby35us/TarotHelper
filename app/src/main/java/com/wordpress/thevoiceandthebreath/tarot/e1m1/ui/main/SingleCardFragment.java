@@ -4,8 +4,6 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.databinding.BindingMethod;
-import android.databinding.BindingMethods;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -33,10 +31,6 @@ import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.meaning.Meaning;
 import java.io.IOException;
 import java.io.InputStream;
 
-@BindingMethods({
-        @BindingMethod(type = android.widget.ImageView.class,
-                attribute = "srcCompat",
-                method = "setImageDrawable") })
 public class SingleCardFragment extends Fragment implements View.OnClickListener{
     // Argument Constants for re-instantiating the fragment after swiping away and then back
     private static final String ARG_CARD_ID = "card_id";
@@ -109,12 +103,11 @@ public class SingleCardFragment extends Fragment implements View.OnClickListener
         enterScene();
         getLiveDataCardFromDatabase();
 
-        mBinding.setDrawable(mBinding.singleCardImage.getDrawable());
-
         mBinding.singleCardImage.setOnClickListener(this);
         mBinding.singleCardImage.setRotation(mImageRotation);
 
         mRotateImageOnSwitchCheckChanged = true;
+
         mBinding.reversedSwitch.setChecked(mImageRotation == REVERSED);
         mBinding.reversedSwitch.setOnCheckedChangeListener(reverseSwitchListener);
     }
@@ -154,16 +147,21 @@ public class SingleCardFragment extends Fragment implements View.OnClickListener
         }
     };
 
-    CompoundButton.OnCheckedChangeListener reverseSwitchListener = new CompoundButton.OnCheckedChangeListener() {
+    private CompoundButton.OnCheckedChangeListener reverseSwitchListener
+            = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            if(mRotateImageOnSwitchCheckChanged)
-                mBinding.singleCardImage.performClick();
+            if (mRotateImageOnSwitchCheckChanged) {
+                toggleRotationConstant();
+                startRotationAnimation(mBinding.singleCardImage);
+                handleSceneTransition();
+            }
         }
     };
 
     @Override
     public void onClick(View v) {
+        v.setClickable(false);
         toggleRotationConstant();
         startRotationAnimation(v);
         handleSceneTransition();
@@ -188,11 +186,8 @@ public class SingleCardFragment extends Fragment implements View.OnClickListener
 
     private void toggleReversedSwitch() {
         mRotateImageOnSwitchCheckChanged = false;
-        if(mImageRotation == UPRIGHT)
-            mBinding.reversedSwitch.setChecked(false);
-        else
-            mBinding.reversedSwitch.setChecked(true);
-       mRotateImageOnSwitchCheckChanged = true;
+        mBinding.reversedSwitch.setChecked(!mBinding.reversedSwitch.isChecked());
+        mRotateImageOnSwitchCheckChanged = true;
     }
 
     Transition.TransitionListener disableEnableClicksListener = new Transition.TransitionListener() {
@@ -263,7 +258,7 @@ public class SingleCardFragment extends Fragment implements View.OnClickListener
         private Scene currentScene;
         private Transition transition;
 
-         SceneManager(ViewGroup sceneRoot, int sceneALayout, int sceneBLayout, Context context) {
+        SceneManager(ViewGroup sceneRoot, int sceneALayout, int sceneBLayout, Context context) {
             sceneA = Scene.getSceneForLayout(sceneRoot, sceneALayout, context);
             sceneB = Scene.getSceneForLayout(sceneRoot, sceneBLayout, context);
         }
@@ -274,13 +269,8 @@ public class SingleCardFragment extends Fragment implements View.OnClickListener
         }
 
         void enterScene(int sceneId) {
-            if(sceneId == SCENE_A) {
-                sceneA.enter();
-                currentScene = sceneA;
-            } else if(sceneId == SCENE_B) {
-                sceneB.enter();
-                currentScene = sceneB;
-            }
+            currentScene = sceneId == SCENE_A ? sceneA : sceneB;
+            currentScene.enter();
         }
 
         void switchScenes() {
