@@ -11,30 +11,21 @@ import com.wordpress.thevoiceandthebreath.tarot.e1m1.usecases.FindCardByIndex.Fi
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.usecases.FindCardByIndex.FindCardByIndexOutputPort;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.usecases.FindCardByIndex.FindCardByIndexUseCase;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class PageViewModel extends ViewModel implements FindCardByIndexOutputPort {
-    private List<MutableLiveData<CardWithMeanings>> cards;
+    private MutableLiveData<CardWithMeanings> card;
 
     public PageViewModel () {
-        cards = new ArrayList<>();
+        card = new MutableLiveData<>();
     }
 
     MutableLiveData<CardWithMeanings> getCard(Context context, int index) {
-        addObjectsToCardsUpToIndex(index);
-        if(ifLiveDataAtIndexNotSet(index))
+        if(ifLiveDataNotSet())
             retrieveCardData(context, index);
-        return cards.get( index);
+        return card;
     }
 
-    private void addObjectsToCardsUpToIndex(int index){
-        while(cards.size() <= index)
-            cards.add(new MutableLiveData<CardWithMeanings>());
-    }
-
-    private boolean ifLiveDataAtIndexNotSet(int index) {
-        return cards.get(index).getValue() == null;
+    private boolean ifLiveDataNotSet() {
+        return card.getValue() == null;
     }
 
     private void retrieveCardData(Context context, int index) {
@@ -47,19 +38,15 @@ public class PageViewModel extends ViewModel implements FindCardByIndexOutputPor
         cwm.setCard(majorCardWithMeanings.majorCard);
         cwm.setUpright(majorCardWithMeanings.uprightMeanings.get(0));
         cwm.setReversed(majorCardWithMeanings.reversedMeanings.get(0));
-
-        addObjectsToCardsUpToIndex(cwm.getCard().getId());
-        cards.get(cwm.getCard().getId()).setValue(cwm);
+        card.setValue(cwm);
     }
 
+    @Override
     public void setCard(MinorCardWithMeanings minorCardWithMeanings) {
         CardWithMeanings cwm = new CardWithMeanings();
         cwm.setCard(minorCardWithMeanings.minorCard);
         cwm.setUpright(minorCardWithMeanings.uprightMeanings.get(0));
         cwm.setReversed(minorCardWithMeanings.reversedMeanings.get(0));
-
-
-        addObjectsToCardsUpToIndex(cwm.getCard().getId());
-        cards.get(cwm.getCard().getId()).setValue(cwm);
+        card.setValue(cwm);
     }
 }
