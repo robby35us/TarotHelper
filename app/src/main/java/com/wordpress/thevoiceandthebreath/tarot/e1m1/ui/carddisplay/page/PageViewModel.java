@@ -1,4 +1,4 @@
-package com.wordpress.thevoiceandthebreath.tarot.e1m1.ui.main;
+package com.wordpress.thevoiceandthebreath.tarot.e1m1.ui.carddisplay.page;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;

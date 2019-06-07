@@ -1,4 +1,4 @@
-package com.wordpress.thevoiceandthebreath.tarot.e1m1.ui.main;
+package com.wordpress.thevoiceandthebreath.tarot.e1m1.ui.carddisplay.page;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
@@ -7,10 +7,8 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.transition.Scene;
 import android.support.transition.Slide;
 import android.support.transition.Transition;
-import android.support.transition.TransitionManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,11 +20,8 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.databinding.FragmentCardDisplayBinding;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.databinding.LayoutSingleCardMeaningBinding;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.databinding.LayoutSingleCardReversedMeaningsBinding;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.R;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardwithmeaings.CardWithMeanings;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.meaning.Meaning;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -136,7 +131,7 @@ public class SingleCardFragment extends Fragment implements View.OnClickListener
     }
 
     private void setupScenes() {
-        sceneBindingManager = new SceneBindingManager(mBinding);
+        sceneBindingManager = new SceneBindingManager(mBinding, getLayoutInflater());
         sceneManager = new SceneManager(mBinding.meaningsRoot, R.layout.layout_single_card_meaning,
                 R.layout.layout_single_card_reversed_meanings, activity);
         sceneManager.setTransition(new Slide(), disableEnableClicksListener);
@@ -255,77 +250,6 @@ public class SingleCardFragment extends Fragment implements View.OnClickListener
         bindAssetImage(mBinding.singleCardImage, mBinding.getCard().getFileName());
         sceneBindingManager.initializeUprightBinding(cardWithMeanings.getUpright());
         sceneBindingManager.initializeReversedBinding(cardWithMeanings.getReversed());
-    }
-
-    /*
-     * Helper classes
-     */
-
-    private class SceneManager {
-        static final int SCENE_A = 1;
-        static final int SCENE_B = 2;
-
-        private Scene sceneA;
-        private Scene sceneB;
-        private Scene currentScene;
-        private Transition transition;
-
-        SceneManager(ViewGroup sceneRoot, int sceneALayout, int sceneBLayout, Context context) {
-            sceneA = Scene.getSceneForLayout(sceneRoot, sceneALayout, context);
-            sceneB = Scene.getSceneForLayout(sceneRoot, sceneBLayout, context);
-        }
-
-        void setTransition(Transition transition, Transition.TransitionListener listener) {
-            this.transition = transition;
-            this.transition.addListener(listener);
-        }
-
-        void enterScene(int sceneId) {
-            currentScene = sceneId == SCENE_A ? sceneA : sceneB;
-            currentScene.enter();
-        }
-
-        void switchScenes() {
-            Scene nextScene = currentScene == sceneA ? sceneB : sceneA;
-            TransitionManager.go(nextScene, transition);
-            currentScene = nextScene;
-        }
-    }
-
-    private class SceneBindingManager {
-        private FragmentCardDisplayBinding parentBinding;
-        private LayoutSingleCardMeaningBinding uprightBinding;
-        private LayoutSingleCardReversedMeaningsBinding reversedBinding;
-        private Meaning uprightMeaning;
-        private Meaning reversedMeaning;
-
-        SceneBindingManager(FragmentCardDisplayBinding parentBinding) {
-            this.parentBinding = parentBinding;
-            this.uprightBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.layout_single_card_meaning,
-                                                          parentBinding.meaningsRoot, false);
-            this.reversedBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.layout_single_card_reversed_meanings,
-                                                          parentBinding.meaningsRoot, false);
-        }
-
-        void bindUpright() {
-            uprightBinding = LayoutSingleCardMeaningBinding.bind(parentBinding.meaningsRoot.getChildAt(0));
-            uprightBinding.setMeaning(uprightMeaning);
-        }
-
-        void bindReversed() {
-            reversedBinding = LayoutSingleCardReversedMeaningsBinding.bind(parentBinding.meaningsRoot.getChildAt(0));
-            reversedBinding.setMeaning(reversedMeaning);
-        }
-
-        void initializeUprightBinding(Meaning uprightMeaning) {
-            uprightBinding.setMeaning(uprightMeaning);
-            this.uprightMeaning = uprightMeaning;
-        }
-
-        void initializeReversedBinding(Meaning reversedMeaning) {
-            reversedBinding.setMeaning(reversedMeaning);
-            this.reversedMeaning = reversedMeaning;
-        }
     }
 
     /*

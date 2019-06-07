@@ -1,14 +1,15 @@
-package com.wordpress.thevoiceandthebreath.tarot.e1m1.ui.main;
+package com.wordpress.thevoiceandthebreath.tarot.e1m1.ui.carddisplay.viewpager;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.definitions.Arcana;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.ui.carddisplay.page.SingleCardFragment;
 
 public class CardPagerAdapter extends FragmentStatePagerAdapter {
 
-    public CardPagerAdapter(FragmentManager fm) {
+    CardPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
