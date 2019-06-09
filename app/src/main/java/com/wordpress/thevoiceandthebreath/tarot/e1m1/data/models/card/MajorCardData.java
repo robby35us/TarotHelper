@@ -5,6 +5,7 @@ import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Index;
 
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.data.models.meaning.MeaningData;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardset.MajorCardKey;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Name;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Number;
 
@@ -18,13 +19,13 @@ public class MajorCardData extends CardData {
     public Number number;
     public Name name;
 
-    public MajorCardData(Number number, String uprightId, String reversedId) {
-        super(uprightId, reversedId, Name.values()[number.ordinal()]
+    public MajorCardData(MajorCardKey key, String uprightId, String reversedId) {
+        super(uprightId, reversedId, key.getName()
                                                   .toString()
                                                   .toLowerCase()
                                                   .replace(" ", "_") + ".jpg");
-        this.number = number;
-        this.name = Name.values()[number.ordinal()];
+        this.number = key.getNumber();
+        this.name = key.getName();
     }
 
     public MajorCardData() {

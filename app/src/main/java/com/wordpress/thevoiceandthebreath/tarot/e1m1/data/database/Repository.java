@@ -5,9 +5,8 @@ import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Number;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Rank;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Suit;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardset.MajorCardKey;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardset.MinorCardKey;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.data.models.meaning.DefaultMeaningData;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.data.models.card.MajorCardData;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.data.models.card.withmeanings.MajorCardWithMeanings;
@@ -51,20 +50,22 @@ public class Repository {
         new InsertMinorCards(cards, database).execute();
     }
 
-    public LiveData<List<MajorCardWithMeanings>> queryMajorCard(Number number) {
-        return database.getMajorCardDao().getCard(number);
-    }
-
-    public LiveData<List<MinorCardWithMeanings>> queryMinorCard(Suit suit, Rank rank) {
-        return database.getMinorCardDao().getCard(suit,rank);
+    // query statements
+    public LiveData<List<MajorCardWithMeanings>> queryMajorCard(MajorCardKey key) {
+        return database.getMajorCardDao().getCard(key.getNumber());
     }
 
     // query statements
-    public LiveData<List<MajorCardWithMeanings>> queryMajorCards(int lowerIndex, int upperIndex) {
+    public LiveData<List<MinorCardWithMeanings>> queryMinorCard(MinorCardKey key) {
+        return database.getMinorCardDao().getCard(key.getSuit(), key.getRank());
+    }
+
+
+    public LiveData<List<MajorCardWithMeanings>> queryManyMajorCards(int lowerIndex, int upperIndex) {
         return database.getMajorCardDao().getCardRangeById(lowerIndex, upperIndex);
     }
 
-    public LiveData<List<MinorCardWithMeanings>> queryMinorCards(int lowerIndex, int upperIndex) {
+    public LiveData<List<MinorCardWithMeanings>> queryManyMinorCards(int lowerIndex, int upperIndex) {
         return database.getMinorCardDao().getCardRangeById(lowerIndex, upperIndex);
     }
 

@@ -5,6 +5,7 @@ import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Index;
 
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.data.models.meaning.MeaningData;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardset.MinorCardKey;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Rank;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Suit;
 
@@ -30,11 +31,11 @@ public class MinorCardData extends CardData {
      *  - suit: an enum that tracks whether the suit of the card
      *  - meaning: holds all the various meanings and keywords assigned to the card
      */
-    public MinorCardData(Suit suit, Rank rank, String uprightId, String reversedId) {
-        super(uprightId, reversedId, rank.toString().toLowerCase() + "_" +
-                                              suit.toString().toLowerCase() + ".jpg");
-        this.rank = rank;
-        this.suit = suit;
+    public MinorCardData(MinorCardKey key, String uprightId, String reversedId) {
+        super(uprightId, reversedId, key.getRank().toString().toLowerCase() + "_" +
+                                              key.getSuit().toString().toLowerCase() + ".jpg");
+        this.rank = key.getRank();
+        this.suit = key.getSuit();
     }
 
     public MinorCardData() {

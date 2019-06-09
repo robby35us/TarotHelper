@@ -5,11 +5,17 @@ import android.arch.persistence.room.Relation;
 
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.data.models.meaning.MeaningData;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.data.models.card.MajorCardData;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Arcana;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MajorCardWithMeanings {
+public class MajorCardWithMeanings extends CardWithMeanings {
+
+    public MajorCardWithMeanings () {
+        arcana = Arcana.MAJOR;
+    }
+
     @Embedded
     public MajorCardData majorCard = null;
 

@@ -7,8 +7,10 @@ import com.wordpress.thevoiceandthebreath.tarot.e1m1.data.models.card.MajorCardD
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.data.models.meaning.MeaningData;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.data.models.card.MinorCardData;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.data.database.Repository;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardset.CardKey;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardset.MajorCardKey;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardset.MinorCardKey;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Arcana;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Name;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Number;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Rank;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Suit;
@@ -37,14 +39,14 @@ public class DataInitializer {
     }
 
     public void populateDatabase(){
-        List<CardParams> params = generateCardParamsList();
+        List<CardKey> params = generateCardKeyList();
         List<String> uprightIds = generateAndStoreUprightMeanings(params);
         List<String> reversedIds = generateAndStoreReversedMeanings(params);
         generateAndStoreCards(params, uprightIds, reversedIds);
     }
 
-    private List<CardParams> generateCardParamsList() {
-        List<CardParams> params = new ArrayList<>();
+    private List<CardKey> generateCardKeyList() {
+        List<CardKey> params = new ArrayList<>();
         params.addAll(getMajorArcanaParamsList());
         params.addAll(getWandsParamsList());
         params.addAll(getCupsParamsList());
@@ -53,11 +55,11 @@ public class DataInitializer {
         return params;
     }
 
-    private List<String> generateAndStoreUprightMeanings(List<CardParams> params) {
+    private List<String> generateAndStoreUprightMeanings(List<CardKey> params) {
         List<String> meaningIdsList = new ArrayList<>(params.size());
         MeaningData[] meaningsArray = new MeaningData[params.size()];
         for(int i = 0; i < params.size(); i++) {
-            MeaningData meaning = generateUprightMeaning(params.get(i));
+            MeaningData meaning = MeaningsFactory.getUprightMeaning(params.get(i));
             meaningIdsList.add(meaning.id);
             meaningsArray[i] = meaning;
         }
@@ -65,11 +67,11 @@ public class DataInitializer {
         return meaningIdsList;
     }
 
-    private List<String> generateAndStoreReversedMeanings(List<CardParams> params) {
+    private List<String> generateAndStoreReversedMeanings(List<CardKey> params) {
         List<String> meaningIdsList = new ArrayList<>(params.size());
         MeaningData[] meaningsArray = new MeaningData[params.size()];
         for(int i = 0; i < params.size(); i++) {
-            MeaningData meaning = generateReversedMeaning(params.get(i));
+            MeaningData meaning = MeaningsFactory.getReversedMeaning( params.get(i));
             meaningIdsList.add(meaning.id);
             meaningsArray[i] = meaning;
         }
@@ -78,7 +80,7 @@ public class DataInitializer {
     }
 
 
-    private void generateAndStoreCards(List<CardParams> params, List<String> uprightIds, List<String> reversedIds) {
+    private void generateAndStoreCards(List<CardKey> params, List<String> uprightIds, List<String> reversedIds) {
         MajorCardData[] majorCards = new MajorCardData[Arcana.MAJOR_ARCANA_SIZE];
         MinorCardData[] minorCards = new MinorCardData[Arcana.MINOR_ARCANA_SIZE];
         for(int i = 0; i < Arcana.MAJOR_ARCANA_SIZE; i++)
@@ -92,107 +94,45 @@ public class DataInitializer {
         repository.insertMinorCards(minorCards);
     }
 
-    private List<CardParams> getMajorArcanaParamsList() {
-        List<CardParams> cardParams = new ArrayList<>();
+    private List<CardKey> getMajorArcanaParamsList() {
+        List<CardKey> CardKey = new ArrayList<>();
         for (Number num : Number.values())
-            cardParams.add(new CardParams(num));
-        return cardParams;
+            CardKey.add(new MajorCardKey(num));
+        return CardKey;
     }
 
-    private List<CardParams> getWandsParamsList() {
-        List<CardParams> cardParams = new ArrayList<>();
+    private List<CardKey> getWandsParamsList() {
+        List<CardKey> CardKey = new ArrayList<>();
         for (Rank rank : Rank.values())
-            cardParams.add(new CardParams(Suit.WANDS, rank));
-        return cardParams;
+            CardKey.add(new MinorCardKey(Suit.WANDS, rank));
+        return CardKey;
     }
 
-    private List<CardParams> getCupsParamsList() {
-        List<CardParams> cardParams = new ArrayList<>();
+    private List<CardKey> getCupsParamsList() {
+        List<CardKey> CardKey = new ArrayList<>();
         for (Rank rank : Rank.values())
-            cardParams.add(new CardParams(Suit.CUPS, rank));
-        return cardParams;
+            CardKey.add(new MinorCardKey(Suit.CUPS, rank));
+        return CardKey;
     }
 
-    private List<CardParams> getSwordsParamsList() {
-        List<CardParams> cardParams = new ArrayList<>();
+    private List<CardKey> getSwordsParamsList() {
+        List<CardKey> CardKey = new ArrayList<>();
         for (Rank rank : Rank.values())
-            cardParams.add(new CardParams(Suit.SWORDS, rank));
-        return cardParams;
+            CardKey.add(new MinorCardKey(Suit.SWORDS, rank));
+        return CardKey;
     }
 
-    private List<CardParams> getPentaclesParamsList() {
-        List<CardParams> cardParams = new ArrayList<>();
+    private List<CardKey> getPentaclesParamsList() {
+        List<CardKey> CardKey = new ArrayList<>();
         for (Rank rank : Rank.values())
-            cardParams.add(new CardParams(Suit.PENTACLES, rank));
-        return cardParams;
+            CardKey.add(new MinorCardKey(Suit.PENTACLES, rank));
+        return CardKey;
     }
 
-    private MeaningData generateUprightMeaning(CardParams ids) {
-        if (ids.getArcana() == Arcana.MAJOR)
-            return MeaningsFactory.getMajorArcanaMeaning(ids.getNumber());
-        else
-            return MeaningsFactory.getMinorArcanaMeaning(ids.getSuit(), ids.getRank());
-    }
-
-    private MeaningData generateReversedMeaning(CardParams ids) {
-        if (ids.getArcana() == Arcana.MAJOR)
-            return MeaningsFactory.getReversedMajorArcanaMeaning(ids.getNumber());
-        else
-            return MeaningsFactory.getReversedMinorArcanaMeaning(ids.getSuit(), ids.getRank());
-    }
-
-    private CardData instantiateNewCard(CardParams ids, String upright, String reversed) {
-        if (ids.getArcana() == Arcana.MAJOR) {
-            return new MajorCardData(ids.getNumber(), upright, reversed);
+    private CardData instantiateNewCard(CardKey key, String upright, String reversed) {
+        if (key.getArcana() == Arcana.MAJOR) {
+            return new MajorCardData((MajorCardKey) key, upright, reversed);
         } else
-            return new MinorCardData(ids.getSuit(), ids.getRank(), upright, reversed);
-    }
-
-    static class CardParams {
-        private Arcana arcana;
-        private Name name;
-        private Number number;
-        private Suit suit;
-        private Rank rank;
-
-        // call for major arcana cards
-        CardParams(Number number) {
-            this(Arcana.MAJOR, Name.values()[number.ordinal()], number,
-                    null, null);
-        }
-
-        // Call for minor arcana cards
-        CardParams(Suit suit, Rank rank) {
-            this(Arcana.MINOR, null, null, suit, rank);
-        }
-
-        private CardParams(Arcana arcana, Name name, Number number,
-                           Suit suit, Rank rank) {
-            this.arcana = arcana;
-            this.name = name;
-            this.number = number;
-            this.suit = suit;
-            this.rank = rank;
-        }
-
-        Arcana getArcana() {
-            return arcana;
-        }
-
-        public Name getName() {
-            return name;
-        }
-
-        Number getNumber() {
-            return number;
-        }
-
-        Suit getSuit() {
-            return suit;
-        }
-
-        Rank getRank() {
-            return rank;
-        }
+            return new MinorCardData((MinorCardKey) key, upright, reversed);
     }
 }

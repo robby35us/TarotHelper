@@ -1,11 +1,17 @@
 package com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.card;
 
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardset.CardKey;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Arcana;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Mode;
 
 public abstract class TarotCard {
+    private CardKey key;
     private MeaningSet uprightMeanings;
     private MeaningSet reversedMeanings;
+
+    public TarotCard(CardKey key) {
+        this.key = key;
+    }
 
     public void setUprightMeanings(MeaningSet uprightMeanings){
         this.uprightMeanings = uprightMeanings;
@@ -13,6 +19,10 @@ public abstract class TarotCard {
 
     public void setReversedMeanings(MeaningSet reversedMeanings) {
         this.reversedMeanings = reversedMeanings;
+    }
+
+    public CardKey getKey() {
+        return key;
     }
 
     public MeaningSet getUprightMeanings() {

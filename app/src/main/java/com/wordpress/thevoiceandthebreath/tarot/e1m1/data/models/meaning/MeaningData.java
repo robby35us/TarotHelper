@@ -4,6 +4,8 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.card.MeaningSet;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -38,5 +40,9 @@ public class MeaningData{
         keyword2 = keywords.get(1);
         keyword3 = keywords.get(2);
         keyword4 = keywords.get(3);
+    }
+
+    public MeaningSet getMeaningSet() {
+        return new MeaningSet(core, generateKeywordsList());
     }
 }

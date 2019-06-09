@@ -1,6 +1,6 @@
 package com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.card;
 
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.card.TarotCard;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardset.MajorCardKey;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Arcana;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Mode;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Name;
@@ -10,9 +10,10 @@ public class MajorArcanaCard extends TarotCard {
     private Name name;
     private Number number;
 
-    public MajorArcanaCard(Number number){
-        this.name = Name.values()[number.ordinal()];
-        this.number = number;
+    public MajorArcanaCard(MajorCardKey key){
+        super(key);
+        this.name = key.getName();
+        this.number = key.getNumber();
     }
 
     public Name getName() {

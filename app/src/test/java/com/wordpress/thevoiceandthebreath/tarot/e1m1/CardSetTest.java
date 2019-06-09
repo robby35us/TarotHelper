@@ -1,5 +1,7 @@
 package com.wordpress.thevoiceandthebreath.tarot.e1m1;
 
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardset.CardSet;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -9,9 +11,6 @@ import static org.junit.Assert.*;
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
-public class ExampleUnitTest {
-    @Test
-    public void addition_isCorrect() {
-        assertEquals(4, 2 + 2);
-    }
+public class CardSetTest {
+
 }

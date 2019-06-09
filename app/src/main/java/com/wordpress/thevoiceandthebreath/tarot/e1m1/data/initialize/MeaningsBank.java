@@ -1,15 +1,15 @@
 package com.wordpress.thevoiceandthebreath.tarot.e1m1.data.initialize;
 
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Number;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Rank;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Suit;
-
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardset.CardKey;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardset.MajorCardKey;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardset.MinorCardKey;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Arcana;
 class MeaningsBank {
     private MeaningsBank() {}
 
-    static String getCoreMeaning(Number number, Suit suit, Rank rank) {
-        if (number != null) {
-            switch (number) {
+    static String getCoreMeaning(CardKey key) {
+        if (key.getArcana() == Arcana.MAJOR) {
+            switch (((MajorCardKey) key).getNumber()) {
                 case ZERO:
                     return "The moment before the first step is taken";
                 case ONE:
@@ -55,10 +55,10 @@ class MeaningsBank {
                 case TWENTY_ONE:
                     return "Successful completion";
             }
-        } else if (suit != null && rank != null) {
-            switch (suit) {
+        } else {
+            switch (((MinorCardKey) key).getSuit()) {
                 case WANDS:
-                    switch (rank) {
+                    switch (((MinorCardKey) key).getRank()) {
                         case ACE:
                             return "An opportunity to take action";
 
@@ -106,7 +106,7 @@ class MeaningsBank {
 
 
                 case CUPS:
-                    switch (rank) {
+                    switch (((MinorCardKey) key).getRank()) {
                         case ACE:
                             return "An opportunity for an emotional experience or growth";
 
@@ -153,7 +153,7 @@ class MeaningsBank {
 
 
                 case SWORDS:
-                    switch (rank) {
+                    switch (((MinorCardKey) key).getRank()) {
                         case ACE:
                             return "An opportunity for a new way of thinking";
 
@@ -201,7 +201,7 @@ class MeaningsBank {
 
 
                 case PENTACLES:
-                    switch (rank) {
+                    switch (((MinorCardKey) key).getRank()) {
                         case ACE:
                             return "An opportunity for prosperity";
 
@@ -252,9 +252,9 @@ class MeaningsBank {
         return null;
     }
 
-    static String[] getKeywords(Number number, Suit suit, Rank rank) {
-        if (number != null) {
-            switch (number) {
+    static String[] getKeywords(CardKey key) {
+        if (key.getArcana() == Arcana.MAJOR) {
+            switch (((MajorCardKey) key).getNumber()) {
                 case ZERO:
                     return new String[]{"Beginnings", "Innocence", "Clear Conscience", ""};
                 case ONE:
@@ -301,9 +301,9 @@ class MeaningsBank {
                     return new String[]{"Fulfilment", "Completion", "Masterpiece", "Consummation"};
             }
         } else {
-            switch (suit) {
+            switch (((MinorCardKey) key).getSuit()) {
                 case WANDS:
-                    switch (rank) {
+                    switch (((MinorCardKey) key).getRank()) {
                         case ACE:
                             return new String[]{"Venture", "Opportunity", "", ""};
                         case TWO:
@@ -334,7 +334,7 @@ class MeaningsBank {
                             return new String[]{"Authoritarian", "Demanding", "Noble", "Honest"};
                     }
                 case CUPS:
-                    switch (rank) {
+                    switch (((MinorCardKey) key).getRank()) {
                         case ACE:
                             return new String[]{"Abundance", "Affirmation", "Fountainhead", ""};
                         case TWO:
@@ -365,7 +365,7 @@ class MeaningsBank {
                             return new String[]{"Diplomatic", "Caring", "Fatherhood", ""};
                     }
                 case SWORDS:
-                    switch (rank) {
+                    switch (((MinorCardKey) key).getRank()) {
                         case ACE:
                             return new String[]{"Conquest", "Valiance", "", ""};
                         case TWO:
@@ -396,7 +396,7 @@ class MeaningsBank {
                             return new String[]{"Intellectual", "Analytical", "Stern", "Orderly"};
                     }
                 case PENTACLES:
-                    switch (rank) {
+                    switch (((MinorCardKey) key).getRank()) {
                         case ACE:
                             return new String[]{"Offer", "Investment", "Small Financial Gain", ""};
                         case TWO:
@@ -431,9 +431,9 @@ class MeaningsBank {
         return null;
     }
 
-    static String getReversedCore(Number number, Suit suit, Rank rank) {
-        if (number != null) {
-            switch (number) {
+    static String getReversedCore(CardKey key) {
+        if (key.getArcana() == Arcana.MAJOR) {
+            switch (((MajorCardKey) key).getNumber()) {
                 case ZERO:
                     return "Need for planning before an action";
                 case ONE:
@@ -479,10 +479,10 @@ class MeaningsBank {
                 case TWENTY_ONE:
                     return "Stagnation or delays rather than failure";
             }
-        } else if (suit != null && rank != null) {
-            switch (suit) {
+        } else {
+            switch (((MinorCardKey) key).getSuit()) {
                 case WANDS:
-                    switch (rank) {
+                    switch (((MinorCardKey) key).getRank()) {
                         case ACE:
                             return "Hesitation";
                         case TWO:
@@ -516,7 +516,7 @@ class MeaningsBank {
 
 
                 case CUPS:
-                    switch (rank) {
+                    switch (((MinorCardKey) key).getRank()) {
                         case ACE:
                             return "Blocked Happiness";
                         case TWO:
@@ -550,7 +550,7 @@ class MeaningsBank {
 
 
                 case SWORDS:
-                    switch (rank) {
+                    switch (((MinorCardKey) key).getRank()) {
                         case ACE:
                             return "Confusion, difficulty thinking clearly";
                         case TWO:
@@ -584,7 +584,7 @@ class MeaningsBank {
 
 
                 case PENTACLES:
-                    switch (rank) {
+                    switch (((MinorCardKey) key).getRank()) {
                         case ACE:
                             return "Conflicts around money and security";
                         case TWO:
@@ -622,9 +622,9 @@ class MeaningsBank {
         return null;
     }
 
-    static String[] getReversedKeywords(Number number, Suit suit, Rank rank) {
-        if (number != null) {
-            switch (number) {
+    static String[] getReversedKeywords(CardKey key) {
+        if (key.getArcana() == Arcana.MAJOR) {
+            switch (((MajorCardKey) key).getNumber()) {
                 case ZERO:
                     return new String[]{"Vanity", "Foolishness", "Indiscretion", "Inanity"};
                 case ONE:
@@ -671,9 +671,9 @@ class MeaningsBank {
                     return new String[]{"Hiatus", "Agnosticism", "Skeptic", "Lacking Fulfillment"};
             }
         } else {
-            switch (suit) {
+            switch (((MinorCardKey) key).getSuit()) {
                 case WANDS:
-                    switch (rank) {
+                    switch (((MinorCardKey) key).getRank()) {
                         case ACE:
                             return new String[]{"Indolence", "Procrastination", "", ""};
                         case TWO:
@@ -704,7 +704,7 @@ class MeaningsBank {
                             return new String[]{"Tyranny", "Despotic", "Disciplinarian", "Doctrinaire"};
                     }
                 case CUPS:
-                    switch (rank) {
+                    switch (((MinorCardKey) key).getRank()) {
                         case ACE:
                             return new String[]{"Superficiality", "Rejection", "Promiscuity", ""};
                         case TWO:
@@ -735,7 +735,7 @@ class MeaningsBank {
                             return new String[]{"Overwrought", "Distracted", "", ""};
                     }
                 case SWORDS:
-                    switch (rank) {
+                    switch (((MinorCardKey) key).getRank()) {
                         case ACE:
                             return new String[]{"Disruption", "Entropy", "Chaos", "Complications", "Anarchy"};
                         case TWO:
@@ -766,7 +766,7 @@ class MeaningsBank {
                             return new String[]{"Malice", "Unyielding", "", ""};
                     }
                 case PENTACLES:
-                    switch (rank) {
+                    switch (((MinorCardKey) key).getRank()) {
                         case ACE:
                             return new String[]{"Disillusionment", "Financial Disappointment", "", ""};
                         case TWO:

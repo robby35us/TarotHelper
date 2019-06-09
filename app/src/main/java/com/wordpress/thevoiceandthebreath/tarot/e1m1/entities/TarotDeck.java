@@ -5,8 +5,10 @@ import android.support.annotation.Nullable;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.card.MajorArcanaCard;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.card.MinorArcanaCard;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.card.TarotCard;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardset.CardKey;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardset.MajorCardKey;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardset.MinorCardKey;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Arcana;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Number;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Rank;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Suit;
 
@@ -35,15 +37,23 @@ public class TarotDeck {
     }
 
     @Nullable
-    public MajorArcanaCard getMajorCard(Number number) {
-        return (MajorArcanaCard) cards[number.ordinal()];
+    public TarotCard getCard(CardKey key) {
+        if(key.getArcana() == Arcana.MAJOR)
+            return getMajorCard((MajorCardKey) key);
+        else
+            return getMinorCard((MinorCardKey) key);
     }
 
     @Nullable
-    public MinorArcanaCard getMinorCard(Suit suit, Rank rank) {
+    private MajorArcanaCard getMajorCard(MajorCardKey key) {
+        return (MajorArcanaCard) cards[key.getNumber().ordinal()];
+    }
+
+    @Nullable
+    private  MinorArcanaCard getMinorCard(MinorCardKey key) {
         int minorCardStart = Arcana.MAJOR_ARCANA_SIZE;
-        int suitOffset = suit.ordinal() * Rank.NUM_RANKS;
-        int rankOffset = rank.ordinal();
+        int suitOffset = key.getSuit().ordinal() * Rank.NUM_RANKS;
+        int rankOffset = key.getRank().ordinal();
         return (MinorArcanaCard) cards[minorCardStart + suitOffset + rankOffset];
     }
 

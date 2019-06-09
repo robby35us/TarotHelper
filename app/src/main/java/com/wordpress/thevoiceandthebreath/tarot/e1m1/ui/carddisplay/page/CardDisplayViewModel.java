@@ -7,25 +7,23 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
 
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardset.CardKey;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardset.MajorCardKey;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardset.MinorCardKey;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.usecases.LoadCard.LoadCard;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.usecases.LoadCard.LoadCardUseCase;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.usecases.LoadImageAssest.LoadImageInputPort;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.usecases.LoadImageAssest.LoadImageOutputPort;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Arcana;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Number;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Rank;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Suit;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.usecases.RetrieveMajorArcanaCard.RetrieveMajorArcanaCardInPort;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.usecases.RetrieveMajorArcanaCard.RetrieveMajorArcanaCardOutPort;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.usecases.RetrieveMajorArcanaCard.RetrieveMajorArcanaCardUseCase;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.usecases.RetrieveMinorArcanaCard.RetrieveMinorArcanaCardInPort;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.usecases.RetrieveMinorArcanaCard.RetrieveMinorArcanaCardOutPort;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.usecases.RetrieveMinorArcanaCard.RetrieveMinorArcanaCardUseCase;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.ui.model.CardModel;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.usecases.LoadImageAssest.LoadImageInteractor;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.ui.DataPort;
 
 public class CardDisplayViewModel extends ViewModel
-                                  implements RetrieveMajorArcanaCardOutPort,
-                                             RetrieveMinorArcanaCardOutPort,
+                                  implements LoadCard.OutPort,
                                              LoadImageOutputPort {
     private MutableLiveData<CardModel> card;
     private MutableLiveData<Drawable> image;
@@ -53,25 +51,19 @@ public class CardDisplayViewModel extends ViewModel
     }
 
     private void retrieveCardData(Context context, int index) {
-        if(index < Arcana.MAJOR_ARCANA_SIZE)
-            requestMajorArcanaCard(context, index);
-        else
-            requestMinorArcanaCard(context, index);
+        CardKey key = createKeyFromIndex(index);
+        new LoadCardUseCase().execute(new LoadCard.Params(context, key),
+                                this, DataPort.getInstance(context));
     }
 
-    private void requestMajorArcanaCard(Context context, int index){
-        RetrieveMajorArcanaCardInPort.Params params
-                = new RetrieveMajorArcanaCardInPort.Params(context, Number.values()[index]);
-        new RetrieveMajorArcanaCardUseCase().execute(params, this, DataPort.getInstance(context));
-    }
-
-    private void requestMinorArcanaCard(Context context, int index) {
-        int minorArcanaIndex = index - Arcana.MAJOR_ARCANA_SIZE;
-        Suit suit = Suit.values()[minorArcanaIndex / Rank.NUM_RANKS];
-        Rank rank = Rank.values()[minorArcanaIndex % Rank.NUM_RANKS];
-        RetrieveMinorArcanaCardInPort.Params params
-                = new RetrieveMinorArcanaCardInPort.Params(context, suit, rank);
-        new RetrieveMinorArcanaCardUseCase().execute(params, this, DataPort.getInstance(context));
+    private CardKey createKeyFromIndex(int index){
+        if(index < Arcana.MAJOR_ARCANA_SIZE) {
+            return new MajorCardKey(Number.values()[index]);
+        } else {
+            int minorArcanaIndex = index - Arcana.MAJOR_ARCANA_SIZE;
+            Suit suit = Suit.values()[minorArcanaIndex / Rank.NUM_RANKS];
+            Rank rank = Rank.values()[minorArcanaIndex % Rank.NUM_RANKS];
+            return new MinorCardKey(suit, rank);}
     }
 
     @Override

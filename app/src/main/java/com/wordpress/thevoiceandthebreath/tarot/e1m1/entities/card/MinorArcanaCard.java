@@ -1,6 +1,6 @@
 package com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.card;
 
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.card.TarotCard;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardset.MinorCardKey;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Arcana;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Mode;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Rank;
@@ -10,9 +10,10 @@ public class MinorArcanaCard extends TarotCard {
     private Suit suit;
     private Rank rank;
 
-    public MinorArcanaCard(Suit suit, Rank rank) {
-        this.suit = suit;
-        this.rank = rank;
+    public MinorArcanaCard(MinorCardKey key) {
+        super(key);
+        this.suit = key.getSuit();
+        this.rank = key.getRank();
     }
 
     public Suit getSuit() {
@@ -37,4 +38,5 @@ public class MinorArcanaCard extends TarotCard {
     public String getTitle() {
         return rank.toString() + " of " + suit.toString();
     }
+
 }
