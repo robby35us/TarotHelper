@@ -5,7 +5,7 @@ import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Index;
 
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.data.models.meaning.MeaningData;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardset.MinorCardKey;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.keyset.MinorCardKey;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Rank;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Suit;
 

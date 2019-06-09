@@ -5,8 +5,8 @@ import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardset.MajorCardKey;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardset.MinorCardKey;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.keyset.MajorCardKey;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.keyset.MinorCardKey;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.data.models.meaning.DefaultMeaningData;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.data.models.card.MajorCardData;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.data.models.card.withmeanings.MajorCardWithMeanings;

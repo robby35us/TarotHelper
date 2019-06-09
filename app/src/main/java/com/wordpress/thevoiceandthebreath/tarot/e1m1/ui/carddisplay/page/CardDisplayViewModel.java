@@ -7,9 +7,9 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
 
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardset.CardKey;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardset.MajorCardKey;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardset.MinorCardKey;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.keyset.CardKey;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.keyset.MajorCardKey;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.keyset.MinorCardKey;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.usecases.LoadCard.LoadCard;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.usecases.LoadCard.LoadCardUseCase;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.usecases.LoadImageAssest.LoadImageInputPort;

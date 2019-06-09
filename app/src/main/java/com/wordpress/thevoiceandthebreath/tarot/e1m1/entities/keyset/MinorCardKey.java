@@ -1,4 +1,4 @@
-package com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardset;
+package com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.keyset;
 
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Arcana;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Rank;
@@ -20,5 +20,10 @@ public class MinorCardKey extends CardKey {
 
     public Rank getRank() {
         return rank;
+    }
+
+    @Override
+    public CardKey copyKey() {
+        return new MinorCardKey(suit, rank);
     }
 }

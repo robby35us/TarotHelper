@@ -13,8 +13,8 @@ import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.card.MajorArcanaCa
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.card.MeaningSet;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.card.MinorArcanaCard;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.card.TarotCard;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardset.MajorCardKey;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardset.MinorCardKey;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.keyset.MajorCardKey;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.keyset.MinorCardKey;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Arcana;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.usecases.LoadCard.LoadCard;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.data.database.Repository;

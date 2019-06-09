@@ -7,9 +7,9 @@ import com.wordpress.thevoiceandthebreath.tarot.e1m1.data.models.card.MajorCardD
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.data.models.meaning.MeaningData;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.data.models.card.MinorCardData;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.data.database.Repository;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardset.CardKey;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardset.MajorCardKey;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardset.MinorCardKey;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.keyset.CardKey;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.keyset.MajorCardKey;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.keyset.MinorCardKey;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Arcana;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Number;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Rank;

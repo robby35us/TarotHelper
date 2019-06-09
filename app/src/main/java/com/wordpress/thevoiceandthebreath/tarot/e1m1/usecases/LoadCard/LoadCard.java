@@ -3,7 +3,7 @@ package com.wordpress.thevoiceandthebreath.tarot.e1m1.usecases.LoadCard;
 import android.content.Context;
 
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.card.TarotCard;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardset.CardKey;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.keyset.CardKey;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.ui.model.CardModel;
 
 public interface LoadCard {

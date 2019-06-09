@@ -1,6 +1,6 @@
 package com.wordpress.thevoiceandthebreath.tarot.e1m1.data.initialize;
 
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardset.CardKey;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.keyset.CardKey;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.data.models.meaning.MeaningData;
 
 import java.util.ArrayList;

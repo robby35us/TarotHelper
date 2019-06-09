@@ -1,6 +1,6 @@
 package com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.card;
 
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardset.MajorCardKey;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.keyset.MajorCardKey;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Arcana;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Mode;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Name;
