@@ -3,7 +3,7 @@
     <data>
         <variable
             name="meaning"
-            type="com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.meaning.Meaning" />
+            type="com.wordpress.thevoiceandthebreath.tarot.e1m1.ui.model.MeaningModel" />
     </data>
 
     <LinearLayout
@@ -32,7 +32,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@={meaning.keyword1}" />
+                android:text="@{meaning.keywords.get(0)}" />
 
             <TextView
                 android:id="@+id/entryKeyword2"
@@ -40,7 +40,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@={meaning.keyword2}" />
+                android:text="@{meaning.keywords.get(1)}" />
         </LinearLayout>
 
         <LinearLayout
@@ -55,7 +55,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@={meaning.keyword3}" />
+                android:text="@{meaning.keywords.get(2)}" />
 
             <TextView
                 android:id="@+id/entryKeyword4"
@@ -63,7 +63,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@={meaning.keyword4}" />
+                android:text="@{meaning.keywords.get(3)}" />
         </LinearLayout>
 
     </LinearLayout>

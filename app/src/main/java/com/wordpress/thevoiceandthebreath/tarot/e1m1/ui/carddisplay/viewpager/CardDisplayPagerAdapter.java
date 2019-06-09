@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.definitions.Arcana;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Arcana;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.ui.carddisplay.page.CardDisplayFragment;
 
 public class CardDisplayPagerAdapter extends FragmentStatePagerAdapter {

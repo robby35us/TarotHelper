@@ -21,7 +21,7 @@ import android.widget.CompoundButton;
 
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.databinding.FragmentCardDisplayBinding;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.R;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.cardwithmeaings.CardWithMeanings;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.ui.model.CardModel;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.ui.carddisplay.util.SceneBindingManager;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.ui.carddisplay.util.SceneManager;
 
@@ -39,7 +39,7 @@ public class CardDisplayFragment extends Fragment implements View.OnClickListene
     private SceneManager sceneManager;
     private SceneBindingManager sceneBindingManager;
 
-    private LiveData<CardWithMeanings> mCard;
+    private LiveData<CardModel> mCard;
     private int cardId;
 
     private float mImageRotation;
@@ -183,13 +183,13 @@ public class CardDisplayFragment extends Fragment implements View.OnClickListene
         mRotateImageOnSwitchCheckChanged = true;
     }
 
-    private Observer<CardWithMeanings> cardWithMeaningsObserver = new Observer<CardWithMeanings>() {
+    private Observer<CardModel> cardWithMeaningsObserver = new Observer<CardModel>() {
         @Override
-        public void onChanged(@Nullable CardWithMeanings cardWithMeanings) {
-            if(cardWithMeanings == null)
+        public void onChanged(@Nullable CardModel card) {
+            if(card == null)
                 return;
             mCard.removeObserver(this);
-            setViewsFromCard(cardWithMeanings);
+            setViewsFromCard(card);
         }
     };
 
@@ -227,20 +227,20 @@ public class CardDisplayFragment extends Fragment implements View.OnClickListene
         public void onTransitionResume(@NonNull Transition transition) { }
     };
 
-    private void setViewsFromCard(CardWithMeanings cardWithMeanings) {
-        mBinding.setCard(cardWithMeanings.getCard());
+    private void setViewsFromCard(CardModel card) {
+        mBinding.setCard(card);
         requestDrawableForImage();
-        initializeSceneBindings(cardWithMeanings);
+        initializeSceneBindings(card);
     }
 
     private void requestDrawableForImage(){
-        LiveData<Drawable> drawableLiveData = viewModel.loadImage(activity.getAssets(), mBinding.getCard().getFileName());
+        LiveData<Drawable> drawableLiveData = viewModel.loadImage(activity.getAssets(), mBinding.getCard().getImageFilename());
         drawableLiveData.observe(activity, drawableObserver);
     }
 
-    private void initializeSceneBindings(CardWithMeanings cardWithMeanings) {
-        sceneBindingManager.initializeUprightBinding(cardWithMeanings.getUpright());
-        sceneBindingManager.initializeReversedBinding(cardWithMeanings.getReversed());
+    private void initializeSceneBindings(CardModel card) {
+        sceneBindingManager.initializeUprightBinding(card.getUprightMeanings());
+        sceneBindingManager.initializeReversedBinding(card.getReversedMeanings());
     }
 
     private Observer<Drawable> drawableObserver = new Observer<Drawable>() {

@@ -1,8 +1,8 @@
 package com.wordpress.thevoiceandthebreath.tarot.e1m1.data.initialize;
 
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.definitions.Number;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.definitions.Rank;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.definitions.Suit;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Number;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Rank;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Suit;
 
 class MeaningsBank {
     private MeaningsBank() {}

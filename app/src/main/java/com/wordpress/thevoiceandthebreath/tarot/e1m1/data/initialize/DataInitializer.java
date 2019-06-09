@@ -2,16 +2,16 @@ package com.wordpress.thevoiceandthebreath.tarot.e1m1.data.initialize;
 
 import android.content.Context;
 
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.card.MajorCard;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.card.MinorCard;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.data.Repository;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.definitions.Arcana;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.card.Card;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.meaning.Meaning;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.definitions.Name;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.definitions.Number;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.definitions.Rank;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.definitions.Suit;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.data.models.card.CardData;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.data.models.card.MajorCardData;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.data.models.meaning.MeaningData;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.data.models.card.MinorCardData;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.data.database.Repository;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Arcana;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Name;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Number;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Rank;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Suit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,9 +55,9 @@ public class DataInitializer {
 
     private List<String> generateAndStoreUprightMeanings(List<CardParams> params) {
         List<String> meaningIdsList = new ArrayList<>(params.size());
-        Meaning[] meaningsArray = new Meaning[params.size()];
+        MeaningData[] meaningsArray = new MeaningData[params.size()];
         for(int i = 0; i < params.size(); i++) {
-            Meaning meaning = generateUprightMeaning(params.get(i));
+            MeaningData meaning = generateUprightMeaning(params.get(i));
             meaningIdsList.add(meaning.id);
             meaningsArray[i] = meaning;
         }
@@ -67,9 +67,9 @@ public class DataInitializer {
 
     private List<String> generateAndStoreReversedMeanings(List<CardParams> params) {
         List<String> meaningIdsList = new ArrayList<>(params.size());
-        Meaning[] meaningsArray = new Meaning[params.size()];
+        MeaningData[] meaningsArray = new MeaningData[params.size()];
         for(int i = 0; i < params.size(); i++) {
-            Meaning meaning = generateReversedMeaning(params.get(i));
+            MeaningData meaning = generateReversedMeaning(params.get(i));
             meaningIdsList.add(meaning.id);
             meaningsArray[i] = meaning;
         }
@@ -79,14 +79,14 @@ public class DataInitializer {
 
 
     private void generateAndStoreCards(List<CardParams> params, List<String> uprightIds, List<String> reversedIds) {
-        MajorCard[] majorCards = new MajorCard[Arcana.MAJOR_ARCANA_SIZE];
-        MinorCard[] minorCards = new MinorCard[Arcana.MINOR_ARCANA_SIZE];
+        MajorCardData[] majorCards = new MajorCardData[Arcana.MAJOR_ARCANA_SIZE];
+        MinorCardData[] minorCards = new MinorCardData[Arcana.MINOR_ARCANA_SIZE];
         for(int i = 0; i < Arcana.MAJOR_ARCANA_SIZE; i++)
-            majorCards[i] = (MajorCard) instantiateNewCard(params.get(i), uprightIds.get(i), reversedIds.get(i));
+            majorCards[i] = (MajorCardData) instantiateNewCard(params.get(i), uprightIds.get(i), reversedIds.get(i));
         repository.insertMajorCards(majorCards);
 
         for(int i = 0; i < Arcana.MINOR_ARCANA_SIZE; i++)
-            minorCards[i] = (MinorCard) instantiateNewCard(params.get(Arcana.MAJOR_ARCANA_SIZE + i),
+            minorCards[i] = (MinorCardData) instantiateNewCard(params.get(Arcana.MAJOR_ARCANA_SIZE + i),
                                                            uprightIds.get(Arcana.MAJOR_ARCANA_SIZE + i),
                                                            reversedIds.get(Arcana.MAJOR_ARCANA_SIZE + i));
         repository.insertMinorCards(minorCards);
@@ -127,25 +127,25 @@ public class DataInitializer {
         return cardParams;
     }
 
-    private Meaning generateUprightMeaning(CardParams ids) {
+    private MeaningData generateUprightMeaning(CardParams ids) {
         if (ids.getArcana() == Arcana.MAJOR)
             return MeaningsFactory.getMajorArcanaMeaning(ids.getNumber());
         else
             return MeaningsFactory.getMinorArcanaMeaning(ids.getSuit(), ids.getRank());
     }
 
-    private Meaning generateReversedMeaning(CardParams ids) {
+    private MeaningData generateReversedMeaning(CardParams ids) {
         if (ids.getArcana() == Arcana.MAJOR)
             return MeaningsFactory.getReversedMajorArcanaMeaning(ids.getNumber());
         else
             return MeaningsFactory.getReversedMinorArcanaMeaning(ids.getSuit(), ids.getRank());
     }
 
-    private Card instantiateNewCard(CardParams ids, String upright, String reversed) {
+    private CardData instantiateNewCard(CardParams ids, String upright, String reversed) {
         if (ids.getArcana() == Arcana.MAJOR) {
-            return new MajorCard(ids.getNumber(), upright, reversed);
+            return new MajorCardData(ids.getNumber(), upright, reversed);
         } else
-            return new MinorCard(ids.getSuit(), ids.getRank(), upright, reversed);
+            return new MinorCardData(ids.getSuit(), ids.getRank(), upright, reversed);
     }
 
     static class CardParams {
@@ -157,7 +157,7 @@ public class DataInitializer {
 
         // call for major arcana cards
         CardParams(Number number) {
-            this(Arcana.MAJOR, number.getMatchingName(), number,
+            this(Arcana.MAJOR, Name.values()[number.ordinal()], number,
                     null, null);
         }
 

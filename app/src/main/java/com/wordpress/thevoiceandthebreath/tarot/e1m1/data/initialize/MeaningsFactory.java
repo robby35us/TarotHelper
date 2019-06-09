@@ -2,43 +2,58 @@ package com.wordpress.thevoiceandthebreath.tarot.e1m1.data.initialize;
 
 import android.support.annotation.NonNull;
 
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.definitions.Number;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.definitions.Rank;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.definitions.Suit;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.meaning.Meaning;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Number;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Rank;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Suit;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.data.models.meaning.MeaningData;
+
+import java.util.ArrayList;
+import java.util.List;
 
 class MeaningsFactory {
 
     private MeaningsFactory() { }
 
-    /*
-     * Pass a Number enum to get the stored Meaning object for a Major Arcana card
-     */
-    static Meaning getMajorArcanaMeaning(@NonNull  Number number){
-        String core = MeaningsBank.getCoreMeaning(number, null, null);
+
+    static MeaningData getMajorArcanaMeaning(@NonNull  Number number){
+        MeaningData meaning = new MeaningData();
+        meaning.core = MeaningsBank.getCoreMeaning(number, null, null);
         String[] keywords = MeaningsBank.getKeywords(number, null, null);
-        return new Meaning(core, keywords);
+        meaning.populateKeywords(toList(keywords));
+        return meaning;
     }
 
-    /*
-     * Pass a Suit and Rank enum to get the stored Meaning object for a Minor Arcana card
-     */
-    static Meaning getMinorArcanaMeaning(@NonNull Suit suit, @NonNull Rank rank) {
-        String core = MeaningsBank.getCoreMeaning(null, suit, rank);
+    static MeaningData getMinorArcanaMeaning(@NonNull Suit suit, @NonNull Rank rank) {
+        MeaningData meaning = new MeaningData();
+        meaning.core = MeaningsBank.getCoreMeaning(null, suit, rank);
         String[] keywords = MeaningsBank.getKeywords(null, suit, rank);
-        return new Meaning(core, keywords);
+        meaning.populateKeywords(toList(keywords));
+        return meaning;
     }
 
-    static Meaning getReversedMajorArcanaMeaning(@NonNull Number number){
-        String core = MeaningsBank.getReversedCore(number, null, null);
+    static MeaningData getReversedMajorArcanaMeaning(@NonNull Number number){
+        MeaningData meaning = new MeaningData();
+        meaning.core = MeaningsBank.getReversedCore(number, null, null);
         String[] keywords = MeaningsBank.getReversedKeywords(number, null, null);
-        return new Meaning(core, keywords);
+        meaning.populateKeywords(toList(keywords));
+        return meaning;
     }
 
-    static Meaning getReversedMinorArcanaMeaning(@NonNull Suit suit, @NonNull Rank rank) {
-        String core = MeaningsBank.getReversedCore(null, suit, rank);
+    static MeaningData getReversedMinorArcanaMeaning(@NonNull Suit suit, @NonNull Rank rank) {
+        MeaningData meaning = new MeaningData();
+        meaning.core = MeaningsBank.getReversedCore(null, suit, rank);
         String[] keywords = MeaningsBank.getReversedKeywords(null, suit, rank);
-        return new Meaning(core, keywords);
+        meaning.populateKeywords(toList(keywords));
+        return meaning;
+    }
+
+    private static List<String> toList(String[] array) {
+        List<String> list = new ArrayList<>(4);
+        list.add(array[0]);
+        list.add(array[1]);
+        list.add(array[2]);
+        list.add(array[3]);
+        return list;
     }
 
 }

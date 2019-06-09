@@ -24,7 +24,7 @@ public class CardDisplayActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        addCards();
+       // addCards();
     }
 
     private void addCards() {
