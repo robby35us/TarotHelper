@@ -26,4 +26,12 @@ public class MinorCardKey extends CardKey {
     public CardKey copyKey() {
         return new MinorCardKey(suit, rank);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj.getClass() == MinorCardKey.class)
+            return this.suit == ((MinorCardKey) obj).getSuit() &&
+                   this.rank == ((MinorCardKey) obj).getRank();
+        return false;
+    }
 }

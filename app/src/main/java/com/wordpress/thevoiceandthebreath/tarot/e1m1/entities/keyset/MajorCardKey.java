@@ -27,4 +27,11 @@ public class MajorCardKey extends CardKey {
     public CardKey copyKey() {
         return new MajorCardKey(number);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj.getClass() == MajorCardKey.class)
+            return this.number == ((MajorCardKey) obj).getNumber();
+        return false;
+    }
 }

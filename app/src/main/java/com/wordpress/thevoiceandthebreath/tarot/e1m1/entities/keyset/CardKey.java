@@ -25,4 +25,7 @@ public abstract class CardKey {
     }
 
     public abstract CardKey copyKey();
+
+    @Override
+    public abstract boolean equals(Object obj);
 }
