@@ -25,20 +25,14 @@ import java.util.List;
 
 public class DataPort implements LoadCard.RequestDAI {
 
-    private static DataPort dataPort;
-
-    private Repository repository;
+    private static Repository repository;
     private LoadCard.Params params;
     private LoadCard.ResultDAI resultDAI;
 
-    public static DataPort getInstance(Context context) {
-        if (dataPort == null)
-            dataPort = new DataPort(context);
-        return dataPort;
-    }
 
-    private DataPort(Context context) {
-        repository = Repository.getRepository(context);
+    public DataPort(Context context) {
+        if(repository == null)
+            repository = Repository.getRepository(context);
     }
 
     @Override
@@ -99,7 +93,7 @@ public class DataPort implements LoadCard.RequestDAI {
 
     private MeaningData extractUprightMeanings(CardWithMeanings inCard) {
         if (inCard != null) {
-            if (inCard.arcana != Arcana.MAJOR)
+            if (inCard.arcana == Arcana.MAJOR)
                 return ((MajorCardWithMeanings) inCard).uprightMeanings.get(0);
             else
                 return ((MinorCardWithMeanings) inCard).uprightMeanings.get(0);
@@ -109,7 +103,7 @@ public class DataPort implements LoadCard.RequestDAI {
 
     private MeaningData extractReversedMeanings(CardWithMeanings inCard) {
         if (inCard != null) {
-            if (inCard.arcana != Arcana.MAJOR)
+            if (inCard.arcana == Arcana.MAJOR)
                 return ((MajorCardWithMeanings) inCard).reversedMeanings.get(0);
             else
                 return ((MinorCardWithMeanings) inCard).reversedMeanings.get(0);

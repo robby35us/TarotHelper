@@ -46,7 +46,7 @@ public class CardDisplayViewModel extends ViewModel
 
     private void retrieveCardData(Context context, CardKey key) {
         new LoadCardUseCase().execute(new LoadCard.Params(context, key),
-                                this, DataPort.getInstance(context));
+                                this, new DataPort(context));
     }
 
     @Override

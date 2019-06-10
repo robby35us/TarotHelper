@@ -27,19 +27,19 @@ public class CardDisplayActivity extends AppCompatActivity {
 
         setContentView(R.layout.acitivity_card_display);
 
-        KeySet keySet = KeySet.deserialize(getIntent().getIntArrayExtra(SERIALIZED_KEYSET_EXTRA));
 
-        CardDisplayPagerAdapter sectionsPagerAdapter
-                = new CardDisplayPagerAdapter(keySet ,getSupportFragmentManager());
 
-        ViewPager viewPager = findViewById(R.id.cardDisplayViewPager);
-        viewPager.setAdapter(sectionsPagerAdapter);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        addCards();
+        //addCards();
+        KeySet keySet = KeySet.deserialize(getIntent().getIntArrayExtra(SERIALIZED_KEYSET_EXTRA));
+        CardDisplayPagerAdapter sectionsPagerAdapter
+                = new CardDisplayPagerAdapter(keySet ,getSupportFragmentManager());
+        ViewPager viewPager = findViewById(R.id.cardDisplayViewPager);
+        viewPager.setAdapter(sectionsPagerAdapter);
     }
 
     private void addCards() {

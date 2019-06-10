@@ -1,7 +1,6 @@
 package com.wordpress.thevoiceandthebreath.tarot.e1m1.ui.carddisplay.page;
 
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -39,7 +38,6 @@ public class CardDisplayFragment extends Fragment implements View.OnClickListene
     private SceneManager sceneManager;
     private SceneBindingManager sceneBindingManager;
 
-    private LiveData<CardModel> mCard;
     private CardKey key;
 
     private boolean mRotateImageOnSwitchCheckChanged;
@@ -50,7 +48,6 @@ public class CardDisplayFragment extends Fragment implements View.OnClickListene
 
     public static CardDisplayFragment newInstance(CardKey key) {
         CardDisplayFragment fragment = new CardDisplayFragment();
-        fragment.mCard = new MutableLiveData<>();
         fragment.key = key;
         return fragment;
     }
@@ -130,7 +127,7 @@ public class CardDisplayFragment extends Fragment implements View.OnClickListene
     }
 
     private void getLiveDataCardFromDatabase() {
-        mCard = viewModel.getCard( activity, key);
+        LiveData<CardModel> mCard = viewModel.getCard( activity, key);
         mCard.observe(activity, cardWithMeaningsObserver);
     }
 
@@ -179,11 +176,11 @@ public class CardDisplayFragment extends Fragment implements View.OnClickListene
     }
 
     private Observer<CardModel> cardWithMeaningsObserver = new Observer<CardModel>() {
+
         @Override
         public void onChanged(@Nullable CardModel card) {
             if(card == null)
                 return;
-            mCard.removeObserver(this);
             setViewsFromCard(card);
         }
     };
