@@ -34,5 +34,4 @@ public interface LoadCard {
     interface ResultDAI {
         void handleResult(TarotCard card);
     }
-
 }

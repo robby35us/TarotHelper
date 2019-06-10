@@ -8,16 +8,10 @@ import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
 
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.keyset.CardKey;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.keyset.MajorCardKey;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.keyset.MinorCardKey;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.usecases.LoadCard.LoadCard;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.usecases.LoadCard.LoadCardUseCase;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.usecases.LoadImageAssest.LoadImageInputPort;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.usecases.LoadImageAssest.LoadImageOutputPort;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Arcana;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Number;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Rank;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Suit;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.ui.model.CardModel;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.usecases.LoadImageAssest.LoadImageInteractor;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.ui.DataPort;
@@ -32,9 +26,9 @@ public class CardDisplayViewModel extends ViewModel
         card = new MutableLiveData<>();
     }
 
-    MutableLiveData<CardModel> getCard(Context context, int index) {
+    MutableLiveData<CardModel> getCard(Context context, CardKey key) {
         if(ifLiveDataNotSet())
-            retrieveCardData(context, index);
+            retrieveCardData(context, key);
         return card;
     }
 
@@ -50,20 +44,9 @@ public class CardDisplayViewModel extends ViewModel
         return card.getValue() == null;
     }
 
-    private void retrieveCardData(Context context, int index) {
-        CardKey key = createKeyFromIndex(index);
+    private void retrieveCardData(Context context, CardKey key) {
         new LoadCardUseCase().execute(new LoadCard.Params(context, key),
                                 this, DataPort.getInstance(context));
-    }
-
-    private CardKey createKeyFromIndex(int index){
-        if(index < Arcana.MAJOR_ARCANA_SIZE) {
-            return new MajorCardKey(Number.values()[index]);
-        } else {
-            int minorArcanaIndex = index - Arcana.MAJOR_ARCANA_SIZE;
-            Suit suit = Suit.values()[minorArcanaIndex / Rank.NUM_RANKS];
-            Rank rank = Rank.values()[minorArcanaIndex % Rank.NUM_RANKS];
-            return new MinorCardKey(suit, rank);}
     }
 
     @Override

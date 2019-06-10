@@ -21,16 +21,16 @@ import android.widget.CompoundButton;
 
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.databinding.FragmentCardDisplayBinding;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.R;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.keyset.CardKey;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.keyset.KeySet;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.ui.model.CardModel;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.ui.carddisplay.util.SceneBindingManager;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.ui.carddisplay.util.SceneManager;
 
 public class CardDisplayFragment extends Fragment implements View.OnClickListener{
 
-    private static final String ARG_CARD_ID = "card_id";
-    private static final String ARG_IMAGE_ROTATION = "image_rotation";
+    private static final String ARG_SERIALIZED_CARD_KEY = "serialized_card_key";
 
-    private static final int CARD_ID_DEFAULT = 0;
     private static final float REVERSED = 180f;
     private static final float UPRIGHT = 0f;
 
@@ -40,7 +40,7 @@ public class CardDisplayFragment extends Fragment implements View.OnClickListene
     private SceneBindingManager sceneBindingManager;
 
     private LiveData<CardModel> mCard;
-    private int cardId;
+    private CardKey key;
 
     private float mImageRotation;
     private boolean mRotateImageOnSwitchCheckChanged;
@@ -49,12 +49,10 @@ public class CardDisplayFragment extends Fragment implements View.OnClickListene
     private CardDisplayViewModel viewModel;
 
 
-    public static CardDisplayFragment newInstance(int cardPosition,
-                                                  boolean reversed) {
+    public static CardDisplayFragment newInstance(CardKey key) {
         CardDisplayFragment fragment = new CardDisplayFragment();
         fragment.mCard = new MutableLiveData<>();
-        fragment.cardId = cardPosition;
-        fragment.mImageRotation = reversed ? REVERSED : UPRIGHT;
+        fragment.key = key;
         return fragment;
     }
 
@@ -93,8 +91,7 @@ public class CardDisplayFragment extends Fragment implements View.OnClickListene
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt(ARG_CARD_ID, cardId);
-        outState.putFloat(ARG_IMAGE_ROTATION, mImageRotation);
+        outState.putIntArray(ARG_SERIALIZED_CARD_KEY, KeySet.serializeSingle(key));
     }
 
     @Override
@@ -106,8 +103,7 @@ public class CardDisplayFragment extends Fragment implements View.OnClickListene
 
 
     private void restoreFragmentFromSavedInstanceState(Bundle savedInstanceState) {
-        cardId = savedInstanceState.getInt(ARG_CARD_ID, CARD_ID_DEFAULT);
-        mImageRotation = savedInstanceState.getFloat(ARG_IMAGE_ROTATION, UPRIGHT);
+         key = KeySet.deserializeSingle(savedInstanceState.getIntArray(ARG_SERIALIZED_CARD_KEY));
     }
 
     private void initializePage() {
@@ -135,7 +131,7 @@ public class CardDisplayFragment extends Fragment implements View.OnClickListene
     }
 
     private void getLiveDataCardFromDatabase() {
-        mCard = viewModel.getCard( activity, cardId);
+        mCard = viewModel.getCard( activity, key);
         mCard.observe(activity, cardWithMeaningsObserver);
     }
 
