@@ -21,6 +21,7 @@ import android.widget.CompoundButton;
 
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.databinding.FragmentCardDisplayBinding;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.R;
+import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Orientation;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.keyset.CardKey;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.keyset.KeySet;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.ui.model.CardModel;
@@ -31,8 +32,7 @@ public class CardDisplayFragment extends Fragment implements View.OnClickListene
 
     private static final String ARG_SERIALIZED_CARD_KEY = "serialized_card_key";
 
-    private static final float REVERSED = 180f;
-    private static final float UPRIGHT = 0f;
+    private static final float REVERSED_ROTATION = 180f;
 
     private FragmentCardDisplayBinding mBinding;
 
@@ -42,7 +42,6 @@ public class CardDisplayFragment extends Fragment implements View.OnClickListene
     private LiveData<CardModel> mCard;
     private CardKey key;
 
-    private float mImageRotation;
     private boolean mRotateImageOnSwitchCheckChanged;
 
     private AppCompatActivity activity;
@@ -121,7 +120,7 @@ public class CardDisplayFragment extends Fragment implements View.OnClickListene
     }
 
     private void enterScene() {
-        if (mImageRotation == REVERSED) {
+        if (key.getOrientation() == Orientation.Reversed) {
             sceneManager.enterScene(SceneManager.SCENE_B);
             sceneBindingManager.bindReversed();
         } else {
@@ -142,12 +141,12 @@ public class CardDisplayFragment extends Fragment implements View.OnClickListene
 
     private void setUpImageView() {
         mBinding.singleCardImage.setOnClickListener(this);
-        mBinding.singleCardImage.setRotation(mImageRotation);
+        mBinding.singleCardImage.setRotation(key.getOrientation().ordinal() * REVERSED_ROTATION);
     }
 
     private void setUpReversedSwitch() {
         mRotateImageOnSwitchCheckChanged = true;
-        mBinding.reversedSwitch.setChecked(mImageRotation == REVERSED);
+        mBinding.reversedSwitch.setChecked(key.getOrientation() == Orientation.Reversed);
         mBinding.reversedSwitch.setOnCheckedChangeListener(reverseSwitchListener);
     }
 
@@ -158,16 +157,16 @@ public class CardDisplayFragment extends Fragment implements View.OnClickListene
     }
 
     private void toggleRotationConstant() {
-        mImageRotation = mImageRotation == UPRIGHT? REVERSED : UPRIGHT;
+       key.toggleOrientation();
     }
 
     private void startRotationAnimation(View view) {
-        view.animate().rotation(mImageRotation).setDuration(500).start();
+        view.animate().rotation(key.getOrientation().ordinal() * REVERSED_ROTATION).setDuration(500).start();
     }
 
     private void handleSceneTransition() {
         sceneManager.switchScenes();
-        if(mImageRotation == UPRIGHT)
+        if(key.getOrientation() == Orientation.Upright)
             sceneBindingManager.bindUpright();
         else
             sceneBindingManager.bindReversed();
