@@ -3,7 +3,7 @@ package com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.keyset;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Arcana;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Orientation;
 
-public abstract class CardKey {
+public abstract class CardKey implements Comparable{
     private Arcana arcana;
     private Orientation orientation;
 

@@ -10,10 +10,9 @@ import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.keyset.MajorCardKe
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.keyset.MinorCardKey;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Arcana;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Rank;
-import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Suit;
 
 public class TarotDeck {
-    public static final int DECK_SIZE = Arcana.MAJOR_ARCANA_SIZE + Arcana.MINOR_ARCANA_SIZE;
+    private static final int DECK_SIZE = Arcana.MAJOR_ARCANA_SIZE + Arcana.MINOR_ARCANA_SIZE;
 
     private static TarotDeck deck;
     private TarotCard[] cards;
@@ -67,7 +66,7 @@ public class TarotDeck {
 
     private int computeMinorCardIndex(MinorArcanaCard card) {
         int minorCardStart = Arcana.MAJOR_ARCANA_SIZE;
-        int suitOffset = card.getSuit().ordinal() * Suit.NUM_SUITS;
+        int suitOffset = card.getSuit().ordinal() * Rank.NUM_RANKS;
         int rankOffset = card.getRank().ordinal();
         return minorCardStart + suitOffset + rankOffset;
     }

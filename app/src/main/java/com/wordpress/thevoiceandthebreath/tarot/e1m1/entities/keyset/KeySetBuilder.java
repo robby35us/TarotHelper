@@ -6,23 +6,25 @@ import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Rank;
 import com.wordpress.thevoiceandthebreath.tarot.e1m1.entities.definitions.Suit;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class KeySetBuilder {
 
     private Set<CardKey> keys;
 
     public KeySetBuilder() {
-        keys = new HashSet<>();
+        keys = new TreeSet<>();
     }
 
     public KeySetBuilder(KeySet keySet) {
-        keys = new HashSet<>(keySet.getKeys());
+        keys = new TreeSet<>(keySet.getKeys());
     }
 
     public KeySet build() {
-        return new KeySet(new ArrayList<>(keys));
+        List<CardKey> keyList = new ArrayList<>(keys);
+        return new KeySet(keyList);
     }
 
     public KeySetBuilder addArcana(Arcana arcana){

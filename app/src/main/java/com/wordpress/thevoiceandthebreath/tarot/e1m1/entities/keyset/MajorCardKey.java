@@ -34,4 +34,11 @@ public class MajorCardKey extends CardKey {
             return this.number == ((MajorCardKey) obj).getNumber();
         return false;
     }
+
+    @Override
+    public int compareTo(Object o) {
+        if(o.getClass() == MajorCardKey.class)
+            return Integer.compare(this.getNumber().ordinal(), ((MajorCardKey) o).getNumber().ordinal());
+        return -1; // not majorCardKey
+    }
 }

@@ -4,4 +4,8 @@
     <string name="tab_text_2">Tab 2</string>
     <string name="reversed_switch_label">Reversed</string>
     <string name="list_item_description">The Current Card</string>
+    <string name="check_box_image_description">Option Selected</string>
+    <string name="selection_toggel_button">Unselect Option Button</string>
+    <string name="card_group_all_cards">All Cards</string>
+    <string name="title_activity_card_selection_page">Card Selection Page</string>
 </resources>

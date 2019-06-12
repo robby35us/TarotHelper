@@ -9,7 +9,7 @@ public abstract class TarotCard {
     private MeaningSet uprightMeanings;
     private MeaningSet reversedMeanings;
 
-    public TarotCard(CardKey key) {
+    TarotCard(CardKey key) {
         this.key = key;
     }
 

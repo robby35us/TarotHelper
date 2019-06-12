@@ -34,4 +34,18 @@ public class MinorCardKey extends CardKey {
                    this.rank == ((MinorCardKey) obj).getRank();
         return false;
     }
+
+    @Override
+    public int compareTo(Object o) {
+        if(o.getClass() == MinorCardKey.class) {
+            int suitComparison = Integer.compare(this.getSuit().ordinal(),
+                    ((MinorCardKey) o).getSuit().ordinal());
+            if (suitComparison != 0)
+                return suitComparison;
+            else
+                return Integer.compare(this.getRank().ordinal(), ((MinorCardKey)o).getRank().ordinal());
+        }
+        else
+            return 1;
+    }
 }
